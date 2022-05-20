@@ -1,7 +1,7 @@
 import {GET_FILMS_FAIL, GET_FILMS_SUCCESS} from '../actions/constants';
 
 const defaultState = {
-  films: null, //TODO: maybe best []
+  films: [], 
   loading: true,
 };
 
@@ -10,7 +10,7 @@ const moviesReducers = (state = defaultState, action) => {
     case GET_FILMS_SUCCESS:
       return {
         ...state,
-        films: [...action.payload],
+        films: action.payload,
         loading: false,
       };
     case GET_FILMS_FAIL:

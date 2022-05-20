@@ -7,7 +7,7 @@ import {
   REMOVE_LIST,
 } from '../actions/constants';
 
-//TODO: maybe not usefull? try to use only characters array
+
 const initialState = {
   list: [],
   error: false,
