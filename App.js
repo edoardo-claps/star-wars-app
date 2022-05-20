@@ -1,51 +1,20 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {configureStore} from '@reduxjs/toolkit';
 import React from 'react';
-import {Node} from 'react';
-
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-
-import Home from './Src/components/Screens/home';
-import List from './Src/components/Screens/mainListCharacters'
+import {StyleSheet, useColorScheme} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Provider} from 'react-redux';
 import ItemDetails from './Src/components/Screens/details';
-
-
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import { configureStore } from '@reduxjs/toolkit';
-import { Provider } from 'react-redux';
-
+import Home from './Src/components/Screens/home';
+import List from './Src/components/Screens/mainListCharacters';
+import PlanetDetails from './Src/components/Screens/planet';
+import arraycharReducer from './Src/reducers/arrayCharacters';
 import charReducer from './Src/reducers/characters';
 import counterreducer from './Src/reducers/counter';
-import planetReducer from './Src/reducers/planetReducer';
+import listReducer from './Src/reducers/listreducer';
 import moviesReducers from './Src/reducers/movies';
-import listReducer from './Src/reducers/listreducer'
-import arraycharReducer from './Src/reducers/arrayCharacters';
-import PlanetDetails from './Src/components/Screens/planet';
+import planetReducer from './Src/reducers/planetReducer';
 
 const globalStore = configureStore({
   reducer: {
@@ -54,38 +23,25 @@ const globalStore = configureStore({
     planetReducer,
     moviesReducers,
     listReducer,
-    arraycharReducer
-  }
-})
+    arraycharReducer,
+  },
+});
 
-const Stack= createNativeStackNavigator()
+const Stack = createNativeStackNavigator();
 
-
-const App= () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
+const App = () => {
   return (
     <Provider store={globalStore}>
-
-    <NavigationContainer>
-    <Stack.Navigator>
-      <Stack.Screen name='Home' component={Home}/>
-      <Stack.Screen name='Dettagli' component={ItemDetails}/>
-      <Stack.Screen name='Pianeta' component={PlanetDetails}/>
-      <Stack.Screen name='La lista dei personaggi' component={List}/>
-    </Stack.Navigator> 
-
-    </NavigationContainer>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Home" component={Home} />
+          <Stack.Screen name="Dettagli" component={ItemDetails} />
+          <Stack.Screen name="Pianeta" component={PlanetDetails} />
+          <Stack.Screen name="La lista dei personaggi" component={List} />
+        </Stack.Navigator>
+      </NavigationContainer>
     </Provider>
   );
 };
-
-const styles = StyleSheet.create({
-  
-});
 
 export default App;
