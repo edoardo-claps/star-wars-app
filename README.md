@@ -1,6 +1,24 @@
-# TODO
+# Setup:
 
-1. Please write a readme file with all the commands to install, run and build your applications.
+1. Dependencies to Install:
+    -yarn
+    -Yarn add axios
+    -yarn add @reduxjs/toolkit
+    -yarn add react-redux
+    -yarn add @react-navigation/native
+    -yarn add react-native-screens react-native-safe-area-context
+    -yarn add @react-navigation/native-stack
+    -yarn add i18next
+    -yarn add react-i18next
+
+2. Install on android 
+    yarn react-native run-android
+
+3. Run and build the application:
+    Start metro:
+    yarn react-native start
+    
+
 
 2. Check all TODOS in code
 

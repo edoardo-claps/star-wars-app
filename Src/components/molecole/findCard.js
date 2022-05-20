@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Button, Text} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 const FindCard = props => {
   if (props.data) {
@@ -12,8 +12,10 @@ const FindCard = props => {
       </View>
     );
   } else {
-    //TODO: empty state
-    return null;
+    
+    return ( <View style={style.container}>
+        <Text>Nessun risultato</Text>
+      </View>)
   }
 };
 export default FindCard;

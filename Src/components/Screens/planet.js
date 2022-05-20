@@ -8,7 +8,7 @@ const PlanetDetails = () => {
   const dispatch = useDispatch();
 
   const selectorPlanet = useSelector(state => state.planetReducer);
-  const arrayCharacters = useSelector(state => state.arraycharReducer);
+  const arrayCharacters = useSelector(state => state.charReducer);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(true);
 

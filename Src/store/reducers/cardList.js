@@ -10,10 +10,11 @@ import {
 //TODO: maybe not usefull? try to use only characters array
 const initialState = {
   list: [],
-  error: null,
+  error: false,
+  errorText:'',
   find: [],
 };
-const listReducer = (state = initialState, action) => {
+const cardsList = (state = initialState, action) => {
   console.log(action);
   switch (action.type) {
     case INSERT_LIST:
@@ -24,7 +25,8 @@ const listReducer = (state = initialState, action) => {
     case INSERT_LIST_FAIL:
       return {
         ...state,
-        error: action.payload,
+        errorText: action.payload,
+        error:true
       };
     case SEARCH:
       return {
@@ -55,4 +57,4 @@ const listReducer = (state = initialState, action) => {
       return state;
   }
 };
-export default listReducer;
+export default cardsList;

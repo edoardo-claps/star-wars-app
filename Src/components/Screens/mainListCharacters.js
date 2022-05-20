@@ -1,17 +1,18 @@
 import React from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {emptysearch, removeInList, reorder, search} from '../../store/actions';
+import {emptysearch, removeInList, reorder, search, increment, pushInList} from '../../store/actions';
 import ButtonComp from '../athoms/button';
 import Title from '../athoms/title';
-import ButtonAdd from '../molecole/buttonAdd';
+import ButtonAdd from '../athoms/buttonAdd';
 import Card from '../molecole/card';
 import FindCard from '../molecole/findCard';
 import FormId from '../molecole/insertById';
 import Search from '../molecole/searchByName';
 
 const List = ({navigation}) => {
-  const SelectorList = useSelector(state => state.listReducer);
+    const counter=useSelector(state=>state.counterreducer)
+  const SelectorList = useSelector(state => state.cardsList);
   const dispatch = useDispatch();
 
   const removeItem = id => {
@@ -69,13 +70,19 @@ const List = ({navigation}) => {
       }
     }
   };
+  
+  const addOnPressFun = () => {
+    dispatch(increment());
+    dispatch(pushInList(counter));
+  };
+
 
   return (
     <View style={style.fathercontainer}>
       <View style={style.container}>
         <FormId />
         <Search searchItem={searchItem} />
-        <ButtonAdd />
+        <ButtonAdd onPress={addOnPressFun}/>
 
         <View style={style.towButtonContainer}>
           <Text style={{fontSize: 18}}>Ordina per nome:</Text>

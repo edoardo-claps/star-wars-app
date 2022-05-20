@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, StyleSheet, Button, Text} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import ButtonComp from '../athoms/button';
 
 const Card = props => {

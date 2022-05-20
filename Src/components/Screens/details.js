@@ -86,14 +86,17 @@ const ItemDetails = ({route, navigation}) => {
       </View>
     );
   }
-  if (selectorChar.error || selectorMovies.error || selectorPlanet.error) {
+  if (selectorChar.error ) {
     return (
       <View style={{textAlign: 'center'}}>
         <Text>Non è possibile elaborare la richiesta </Text>
+        <Text>{selectorChar.errorText}</Text>
       </View>
     );
   } else {
-    return <Text>Loading...</Text>;
+    return(<View style={style.loading}>
+         <Text>Loading...</Text>
+    </View>);
   }
 };
 export default ItemDetails;
@@ -144,4 +147,10 @@ const style = StyleSheet.create({
     alignContent: 'flex-end',
     paddingStart: 6,
   },
+  loading:{
+      justifyContent:'center',
+      alignItems:'center',
+      alignContent:'center',
+      marginTop:'50%'
+  }
 });

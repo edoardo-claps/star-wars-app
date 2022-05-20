@@ -2,7 +2,7 @@ import {GET_PLANET_FAIL, GET_PLANET_SUCCESS} from '../actions/constants';
 
 const initialstate = {
   data: null,
-  error: '',
+  loading:true,
 };
 
 const planetReducer = (state = initialstate, action) => {
@@ -11,11 +11,12 @@ const planetReducer = (state = initialstate, action) => {
       return {
         ...state,
         data: action.payload,
+        loading:false
       };
     case GET_PLANET_FAIL:
       return {
         ...state,
-        error: action.payload,
+        loading:false
       };
 
     default:

@@ -6,7 +6,6 @@ const axios = require('axios').default;
  * @returns: promises
  */
 const multiFetchByArray = urls => {
-  //TODO: transf to arrow func
   let promiseArray = [];
 
   urls.map(url => promiseArray.push(axios.get(url)));
@@ -41,52 +40,43 @@ export const set = number => {
 };
 
 //REQUEST FULL DATA CHARACTER
-//TODO: convert to async/await and simplify with one catch
+
 export const requestLoadCharacter = Id => {
-  return (dispatch, _) => {
+  return async (dispatch, _) => {
     dispatch({type: constants.GET_CHARACTER});
+    try {
+      const result = await axios.get('https://swapi.dev/api/people/' + Id + '/',);
+      dispatch({type: constants.GET_CHARACTER_SUCCESS, payload: result.data});
 
-    axios
-      .get('https://swapi.dev/api/people/' + Id + '/')
-      .then(data => {
-        dispatch({type: constants.GET_CHARACTER_SUCCESS, payload: data.data});
-        axios
-          .get(data.data.homeworld)
+      const result2 = await axios.get(result.data.homeworld);
+      dispatch({type: constants.GET_PLANET_SUCCESS, payload: result2.data});
 
-          .then(data => {
-            dispatch({type: constants.GET_PLANET_SUCCESS, payload: data.data});
-          })
-          .catch(error => {
-            dispatch({type: constants.GET_PLANET_FAIL, payload: error});
-          });
+      if (result.data.films && result.data.films.length > 0) {
+        const moviRs = await multiFetchByArray(result.data.films);
 
-        if (data.data.films && data.data.films.length > 0) {
-          multiFetchByArray(data.data.films)
-            .then(data => {
-              let array = changeArrayData(data);
-              dispatch({type: constants.GET_FILMS_SUCCESS, payload: array});
-            })
-            .catch(error => {
-              dispatch({type: constants.GET_FILMS_FAIL, payload: error});
-            });
-        }
-      })
-      .catch(error => {
-        dispatch({type: constants.GET_CHARACTER_FAIL, payload: error});
-      });
+        let array = changeArrayData(moviRs);
+        dispatch({type: constants.GET_FILMS_SUCCESS, payload: array});
+      }
+    } catch (error) {
+      dispatch({type: constants.GET_CHARACTER_FAIL, payload: error});
+      dispatch({type:constants.GET_FILMS_FAIL});
+      dispatch({type:constants.GET_PLANET_FAIL});
+    }
   };
 };
 
 //ACTIONS FOR CARD-LIST
-export const pushInList = async (Id) => {
-  return (dispatch, _) => {
+export const pushInList = Id => {
+  return async (dispatch, _) => {
     try {
-      const result = await axios.get('https://swapi.dev/api/people/' + Id + '/');
+      const result = await axios.get(
+        'https://swapi.dev/api/people/' + Id + '/',
+      );
       dispatch({
         type: constants.INSERT_LIST,
         payload: {id: Id, ...result.data},
       });
-    } catch(error) {
+    } catch (error) {
       dispatch({type: constants.INSERT_LIST_FAIL, payload: error.message});
     }
   };
@@ -117,15 +107,13 @@ export const reorder = array => {
 };
 
 export const getCharacters = urls => {
-  return (dispatch, _) => {
-    multiFetchByArray(urls)
-      .then(data => {
-        let array = changeArrayData(data);
-        dispatch({type: constants.GET_CHARACTERS_ARRAY, payload: array});
-      })
-
-      .catch(error => {
-        dispatch({type: constants.GET_CHARACTERS_ARRAY_FAIL, payload: error});
-      });
+  return async (dispatch, _) => {
+    try {
+      const data = await multiFetchByArray(urls);
+      let array = changeArrayData(data);
+      dispatch({type: constants.GET_CHARACTERS_ARRAY, payload: array});
+    } catch (error) {
+      dispatch({type: constants.GET_CHARACTERS_ARRAY_FAIL, payload: error});
+    }
   };
 };

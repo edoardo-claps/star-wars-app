@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
-import {useDispatch} from 'react-redux';
-import {pushInList} from '../../store/actions';
+import React, { useState } from 'react';
+import { View } from 'react-native';
+import { useDispatch } from 'react-redux';
+import { pushInList } from '../../store/actions';
 import Input from '../athoms/input';
 
 const FormId = () => {

@@ -1,20 +1,18 @@
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {configureStore} from '@reduxjs/toolkit';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { configureStore } from '@reduxjs/toolkit';
 import React from 'react';
-import {StyleSheet, useColorScheme} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {Provider} from 'react-redux';
+import { Provider } from 'react-redux';
 import ItemDetails from './Src/components/Screens/details';
 import Home from './Src/components/Screens/home';
 import List from './Src/components/Screens/mainListCharacters';
 import PlanetDetails from './Src/components/Screens/planet';
-import arraycharReducer from './Src/reducers/arrayCharacters';
-import charReducer from './Src/reducers/characters';
-import counterreducer from './Src/reducers/counter';
-import listReducer from './Src/reducers/listreducer';
-import moviesReducers from './Src/reducers/movies';
-import planetReducer from './Src/reducers/planetReducer';
+import counterreducer from './Src/store/reducers/counter'
+import cardsList from './Src/store/reducers/cardList';
+import moviesReducers from './Src/store/reducers/movies';
+import planetReducer from './Src/store/reducers/planetReducer';
+import charReducer from './Src/store/reducers/characters';
+
 
 const globalStore = configureStore({
   reducer: {
@@ -22,8 +20,8 @@ const globalStore = configureStore({
     counterreducer,
     planetReducer,
     moviesReducers,
-    listReducer,
-    arraycharReducer,
+    cardsList,
+   
   },
 });
 
