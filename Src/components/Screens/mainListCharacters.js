@@ -1,20 +1,27 @@
 import React from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {emptysearch, removeInList, reorder, search, increment, pushInList} from '../../store/actions';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
+import '../../languages/langConfig';
+import {
+  emptysearch, increment,
+  pushInList, removeInList,
+  reorder,
+  search
+} from '../../store/actions';
 import ButtonComp from '../athoms/button';
-import Title from '../athoms/title';
 import ButtonAdd from '../athoms/buttonAdd';
+import Title from '../athoms/title';
 import Card from '../molecole/card';
 import FindCard from '../molecole/findCard';
 import FormId from '../molecole/insertById';
 import Search from '../molecole/searchByName';
 
 const List = ({navigation}) => {
-    const counter=useSelector(state=>state.counterreducer)
+  const counter = useSelector(state => state.counterreducer);
   const SelectorList = useSelector(state => state.cardsList);
   const dispatch = useDispatch();
-
+  const {t} =useTranslation()
   const removeItem = id => {
     if (SelectorList.list) {
       let filter = SelectorList.list.filter(element => element.id === id);
@@ -70,22 +77,21 @@ const List = ({navigation}) => {
       }
     }
   };
-  
+
   const addOnPressFun = () => {
     dispatch(increment());
     dispatch(pushInList(counter));
   };
-
 
   return (
     <View style={style.fathercontainer}>
       <View style={style.container}>
         <FormId />
         <Search searchItem={searchItem} />
-        <ButtonAdd onPress={addOnPressFun}/>
+        <ButtonAdd onPress={addOnPressFun} />
 
         <View style={style.towButtonContainer}>
-          <Text style={{fontSize: 18}}>Ordina per nome:</Text>
+          <Text style={{fontSize: 18}}>{t('filterByName')}</Text>
           <ButtonComp
             title="A-Z"
             color="yellow"
@@ -101,19 +107,19 @@ const List = ({navigation}) => {
 
       <ScrollView style={style.scroll} showsVerticalScrollIndicator={false}>
         <View style={SelectorList.find.length ? style.find : style.none}>
-          {SelectorList.find.length > 0 ? <Title title="Risultati:" /> : null}
+          {SelectorList.find.length > 0 ? <Title title={t("results")} /> : null}
           {SelectorList.find.map((element, index) => (
             <FindCard key={index} data={element} />
           ))}
           <ButtonComp
-            title="svuota"
+            title={t("empty")}
             color="red"
             onPress={() => dispatch(emptysearch())}
           />
         </View>
 
         <View>
-          {SelectorList.list.length > 0 ? <Title title="Personaggi:" /> : null}
+          {SelectorList.list.length > 0 ? <Title title={t("characters")} /> : null}
           {SelectorList.list.map((element, index) => (
             <Card
               key={index}

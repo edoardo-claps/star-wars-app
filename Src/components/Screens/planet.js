@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
+import '../../languages/langConfig';
 import {getCharacters} from '../../store/actions';
 import Title from '../athoms/title';
-import {View, Text, StyleSheet} from 'react-native';
 
 const PlanetDetails = () => {
   const dispatch = useDispatch();
@@ -11,6 +13,7 @@ const PlanetDetails = () => {
   const arrayCharacters = useSelector(state => state.charReducer);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(true);
+  const {t} = useTranslation();
 
   useEffect(() => {
     if (selectorPlanet.data) {
@@ -32,39 +35,39 @@ const PlanetDetails = () => {
 
         <View style={style.wrapperDetails}>
           <Text style={style.textWhite}>
-            {' '}
-            Periodo si rotazione: {selectorPlanet.data.rotation_period}{' '}
+    
+            {t('rotation')} {selectorPlanet.data.rotation_period}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Periodo orbitale: {selectorPlanet.data.orbital_period}{' '}
+            
+           {t('orbitation')} {selectorPlanet.data.orbital_period}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Diametro: {selectorPlanet.data.diameter}{' '}
+            
+            {t('diameter')} {selectorPlanet.data.diameter}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Clima: {selectorPlanet.data.climate}{' '}
+            
+           {t('weather')} {selectorPlanet.data.climate}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Gravità: {selectorPlanet.data.gravity}{' '}
+            
+           {t('gravity')} {selectorPlanet.data.gravity}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Territorio: {selectorPlanet.data.terrain}{' '}
+            
+            {t('territory')} {selectorPlanet.data.terrain}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Popolazione: {selectorPlanet.data.population}{' '}
+            
+            {t('population')} {selectorPlanet.data.population}
           </Text>
         </View>
         <View style={style.wrapperDetailsFilm}>
           {arrayCharacters.char.length > 0 ? (
-            <Title title="Residenti:" />
+            <Title title={t('residents')} />
           ) : (
-            <Title title="Questo pianeta non ha residenti!" />
+            <Title title={t('noResid')} />
           )}
           {arrayCharacters.char.map(elem => (
             <Text style={style.textBlack} key={elem.name + 'Text'}>
@@ -78,14 +81,14 @@ const PlanetDetails = () => {
   if (selectorPlanet.error) {
     return (
       <View style={{textAlign: 'center'}}>
-        <Title>Non è possibile elaborare la richiesta </Title>
+        <Title>{t('noRes')} </Title>
       </View>
     );
   }
   if (!loading && error) {
     return (
       <View style={{textAlign: 'center'}}>
-        <Title>Qualcosa è andato storto</Title>
+        <Title>{t('noRes')} </Title>
       </View>
     );
   } else {

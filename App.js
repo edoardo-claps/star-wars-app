@@ -12,7 +12,9 @@ import cardsList from './Src/store/reducers/cardList';
 import moviesReducers from './Src/store/reducers/movies';
 import planetReducer from './Src/store/reducers/planetReducer';
 import charReducer from './Src/store/reducers/characters';
-
+import Settings from './Src/components/Screens/settings';
+import {useTranslation} from 'react-i18next';
+import './Src/languages/langConfig'
 
 const globalStore = configureStore({
   reducer: {
@@ -28,14 +30,17 @@ const globalStore = configureStore({
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  const {t}=useTranslation()
   return (
     <Provider store={globalStore}>
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen name="Home" component={Home} />
-          <Stack.Screen name="Dettagli" component={ItemDetails} />
-          <Stack.Screen name="Pianeta" component={PlanetDetails} />
-          <Stack.Screen name="La lista dei personaggi" component={List} />
+          <Stack.Screen name={t('details')} component={ItemDetails} />
+          <Stack.Screen name={t('planet')} component={PlanetDetails} />
+          <Stack.Screen name={t('list')} component={List} />
+           <Stack.Screen name={t('settings')} component={Settings} /> 
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

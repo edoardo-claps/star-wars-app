@@ -2,14 +2,6 @@
 
 1. Dependencies to Install:
     -yarn
-    -Yarn add axios
-    -yarn add @reduxjs/toolkit
-    -yarn add react-redux
-    -yarn add @react-navigation/native
-    -yarn add react-native-screens react-native-safe-area-context
-    -yarn add @react-navigation/native-stack
-    -yarn add i18next
-    -yarn add react-i18next
 
 2. Install on android 
     yarn react-native run-android

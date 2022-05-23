@@ -3,6 +3,8 @@ import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {requestLoadCharacter} from '../../store/actions';
 import Title from '../athoms/title';
+import '../../languages/langConfig';
+import {useTranslation} from 'react-i18next';
 
 const ItemDetails = ({route, navigation}) => {
   let params = route.params;
@@ -11,6 +13,7 @@ const ItemDetails = ({route, navigation}) => {
   const selectorPlanet = useSelector(state => state.planetReducer);
   const selectorMovies = useSelector(state => state.moviesReducers);
   const [loading, setLoading] = useState(true);
+  const {t}=useTranslation()
 
   console.log(params.id);
   useEffect(() => {
@@ -34,35 +37,34 @@ const ItemDetails = ({route, navigation}) => {
 
         <View style={style.wrapperDetails}>
           <Text style={style.textWhite}>
-            {' '}
-            Colore occhi : {selectorChar.data.eye_color}
+           {t('eyeColor')} {selectorChar.data.eye_color}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Colore occhi : {selectorChar.data.skin_color}
+            
+            {t('skinColor')} {selectorChar.data.skin_color}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Colore capelli : {selectorChar.data.hair_color}
+      
+            {t('hairColor')} {selectorChar.data.hair_color}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Genere : {selectorChar.data.gender}
+     
+           {t('gender')} {t(selectorChar.data.gender)}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Altezza : {selectorChar.data.height} cm
+  
+            {t('tall')} {selectorChar.data.height} cm
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Anno di nascita: {selectorChar.data.birth_year}
+      
+            {t('birth')} {selectorChar.data.birth_year}
           </Text>
           <Text style={style.textWhite}>
-            {' '}
-            Pianeta d'origine :
+          
+            {t('originPlanet')}
             <TouchableOpacity
               style={style.link}
-              onPress={() => navigation.navigate('Pianeta')}>
+              onPress={() => navigation.navigate(t('planet'))}>
               <Text style={{color: 'yellow', fontSize: 18}}>
                 {selectorPlanet.data.name}
               </Text>
@@ -70,7 +72,7 @@ const ItemDetails = ({route, navigation}) => {
           </Text>
         </View>
         <View style={style.wrapperDetailsFilm}>
-          <Title title="Film in cui appare:" />
+          <Title title={t('moviesInto')} />
           <View style={style.MoviesDetail}>
             {selectorMovies.films.length > 0 ? (
               selectorMovies.films.map((element, index) => (
@@ -79,7 +81,7 @@ const ItemDetails = ({route, navigation}) => {
                 </Text>
               ))
             ) : (
-              <Text style={style.textBlack}> Nessun film</Text>
+              <Text style={style.textBlack}>{t('noMoies')}</Text>
             )}
           </View>
         </View>
@@ -89,7 +91,7 @@ const ItemDetails = ({route, navigation}) => {
   if (selectorChar.error ) {
     return (
       <View style={{textAlign: 'center'}}>
-        <Text>Non è possibile elaborare la richiesta </Text>
+        <Text>{t('noRes')}</Text>
         <Text>{selectorChar.errorText}</Text>
       </View>
     );

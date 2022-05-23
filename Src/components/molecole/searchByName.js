@@ -2,10 +2,12 @@ import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {emptysearch} from '../../store/actions';
 import Input from '../athoms/input';
+import '../../languages/langConfig';
+import {useTranslation} from 'react-i18next';
 
 const Search = props => {
   const [insertedValue, SetinsertedValue] = useState('');
-
+  const {t} = useTranslation();
   const dispatch = useDispatch();
 
   const hendleEvent = () => {
@@ -19,14 +21,14 @@ const Search = props => {
 
   return (
     <Input
-      placeholder="Cerca per Nome"
+      placeholder={t('searchByName')}
       value={insertedValue ? insertedValue : ''}
       onChangeText={text => SetinsertedValue(text)}
       keyboardType="default"
       returnKeyType="done"
       onTouchStart={() => dispatch(emptysearch())}
       onEndEditing={hendleEvent}
-      buttonTitle="Cerca"
+      buttonTitle={t("search")}
       onPress={hendleEvent}
     />
   );

@@ -3,9 +3,13 @@ import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { pushInList } from '../../store/actions';
 import Input from '../athoms/input';
+import '../../languages/langConfig';
+import {useTranslation} from 'react-i18next';
+
 
 const FormId = () => {
   const dispatch = useDispatch();
+  const {t} =useTranslation();
 
   const [insertedValue, SetinsertedValue] = useState(0);
 
@@ -19,12 +23,12 @@ const FormId = () => {
   return (
     <View>
       <Input
-        placeholder="Aggiungi tramite Id"
+        placeholder={t('insertById')}
         value={insertedValue ? insertedValue : ''}
         onChangeText={text => SetinsertedValue(text)}
         keyboardType="number-pad"
         returnKeyType="done"
-        buttonTitle="Invia"
+        buttonTitle={t('send')}
         onPress={hendleinput}
         onEndEditing={hendleinput}
       />

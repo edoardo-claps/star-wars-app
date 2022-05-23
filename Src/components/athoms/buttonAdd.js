@@ -1,15 +1,15 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import {useSelector} from 'react-redux';
+import { useTranslation } from 'react-i18next';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import '../../languages/langConfig';
 
 const ButtonAdd = ({onPress}) => {
- 
-
+  const {t} = useTranslation();
   return (
     <View>
       <TouchableOpacity style={style.button} onPress={onPress}>
         <Text style={{color: 'yellow', fontSize: 19}}>
-          Aggiungi Personaggio
+         {t('addChar')}
         </Text>
       </TouchableOpacity>
     </View>
