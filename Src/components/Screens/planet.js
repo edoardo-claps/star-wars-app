@@ -21,16 +21,13 @@ const PlanetDetails = () => {
     if (selectorPlanet.data) {
       dispatch(getCharacters(selectorPlanet.data.residents));
 
-      setTimeout(() => {
-        setLoading(false);
-      }, 300);
     } else {
-      setLoading(false);
+   
       setError(true);
     }
   }, []);
 
-  if (!loading && selectorPlanet.data) {
+  if (!selectorPlanet.loading && !arrayCharacters.loading && selectorPlanet.data) {
     return (
       <ScrollView>
       <View style={style.containerDetails}>
@@ -96,7 +93,7 @@ const PlanetDetails = () => {
       </View>
     );
   }
-  if (!loading && error) {
+  if (!selectorPlanet.loading && error) {
     return (
       <View style={{textAlign: 'center'}}>
         <Title>{t('noRes')} </Title>

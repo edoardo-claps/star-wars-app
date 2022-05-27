@@ -19,19 +19,23 @@ const Settings = () => {
   return (
     <View style={style.container}>
       <Text style={style.text}>{t('selectLang')}</Text>
-      <View style={style.towButtonContainer}>
+      <View style={style.ButtonContainer}>
         <ButtonComp
           title="Italian"
           onPress={itLeng}
           color={i18next.language == 'it' ? 'blue' : 'yellow'}
         />
+        </View>
+        <View style={style.ButtonContainer}>
         <ButtonComp
           title="English"
           onPress={enLeng}
           color={i18next.language == 'en' ? 'blue' : 'yellow'}
         />
+        </View>
+        <View style={style.ButtonContainer}>
         <ButtonComp
-          title="English"
+          title="Español"
           onPress={espLeng}
           color={i18next.language == 'es' ? 'blue' : 'yellow'}
         />
@@ -43,17 +47,19 @@ export default Settings;
 
 const style = StyleSheet.create({
   container: {
+  
     justifyContent: 'center',
     alignItems: 'center',
+    margin:20
   },
   text: {
     fontSize: 20,
+    color:'black'
   },
-  towButtonContainer: {
-    flexDirection: 'row',
-    margin: 1,
+  ButtonContainer: {
+  
     justifyContent: 'space-around',
     alignItems: 'center',
-    marginTop: 4,
+    margin: 10,
   },
 });

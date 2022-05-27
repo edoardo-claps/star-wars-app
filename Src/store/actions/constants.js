@@ -8,6 +8,7 @@ export const GET_CHARACTER_FAIL = 'getCharacterFail';
 export const GET_PLANET_SUCCESS = 'getPlanetSuccess';
 export const GET_PLANET_FAIL = 'getPlanetFail';
 
+export const GET_FILMS = 'getFilms';
 export const GET_FILMS_SUCCESS = 'getFilmsSuccess';
 export const GET_FILMS_FAIL = 'getFilsmFail';
 
@@ -19,6 +20,8 @@ export const REMOVE_LIST = 'RemoveToList';
 export const FILTER_BY_NAME = 'filterByName';
 
 export const GET_CHARACTERS_ARRAY = 'getCharactersArray';
+export const GET_CHARACTERS_ARRAY_SUCCESS = 'getCharactersArraysuccess';
+
 export const GET_CHARACTERS_ARRAY_FAIL = 'getCharactersArrayFail';
 
 

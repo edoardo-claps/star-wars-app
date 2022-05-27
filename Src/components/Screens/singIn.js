@@ -8,7 +8,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  ScrollView
 } from 'react-native';
 import { useDispatch } from 'react-redux';
 import '../../languages/langConfig';
@@ -25,7 +26,7 @@ export default ({navigation}) => {
   const [error, seterror] = useState('');
   const dispatch = useDispatch();
 
-  const useLoginFormState =  async(dispatch) => {
+  const useLoginFormState =  () => {
 
     if (isSignUp) {
 
@@ -36,7 +37,7 @@ export default ({navigation}) => {
           
           try {
             setLoading(true);
-             await dispatch( singup(email.value, password.value));
+              dispatch( singup(email.value, password.value));
             setLoading(false); 
 
               navigation.navigate('LoginCheck');
@@ -62,7 +63,7 @@ export default ({navigation}) => {
    
 
       try {
-         await dispatch(login(email.value, password.value));
+         dispatch(login(email.value, password.value));
          setLoading(false); 
          navigation.navigate('LoginCheck');
       } catch (e) {
@@ -88,6 +89,7 @@ export default ({navigation}) => {
   }, [error]);
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <KeyboardAvoidingView behavior="position" keyboardVerticalOffset="25">
         <Text style={styles.headerText}>
@@ -162,6 +164,7 @@ export default ({navigation}) => {
         </View>
       </KeyboardAvoidingView>
     </View>
+    </ScrollView>
   );
 };
 

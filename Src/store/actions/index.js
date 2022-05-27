@@ -78,6 +78,7 @@ export const requestLoadCharacter = Id => {
       dispatch({type: constants.GET_PLANET_SUCCESS, payload: result2.data});
 
       if (result.data.films && result.data.films.length > 0) {
+        dispatch({type:constants.GET_FILMS})
         const moviRs = await multiFetchByArray(result.data.films);
 
         let array = changeArrayData(moviRs);
@@ -135,10 +136,11 @@ export const reorder = array => {
 
 export const getCharacters = urls => {
   return async (dispatch, _) => {
+    dispatch({type:constants.GET_CHARACTERS_ARRAY})
     try {
       const data = await multiFetchByArray(urls);
       let array = changeArrayData(data);
-      dispatch({type: constants.GET_CHARACTERS_ARRAY, payload: array});
+      dispatch({type: constants.GET_CHARACTERS_ARRAY_SUCCESS, payload: array});
     } catch (error) {
       dispatch({type: constants.GET_CHARACTERS_ARRAY_FAIL, payload: error});
     }
@@ -161,7 +163,9 @@ export const singup = (email, password) => {
           body: body,
         },
       );
-      const data = await response.json();
+      console.log(response)
+    
+      const data = response.json();
       dispatch(
         authentication(
           data.localId,
@@ -181,12 +185,12 @@ export const singup = (email, password) => {
 
 export const login = (email, password) => {
   return async (dispatch, _) => {
+    const body = JSON.stringify({
+      email: email,
+      password: password,
+      returnSecureToken: true,
+    });
     try {
-      const body = JSON.stringify({
-        email: email,
-        password: password,
-        returnSecureToken: true,
-      });
       const response = await fetch(
         'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBsfUy-Dp3-M0QHhMgZGdhsWnsatPnJ4rw',
         {
@@ -196,6 +200,7 @@ export const login = (email, password) => {
         },
       );
       const data = await response.json();
+      console.log(data)
       dispatch(
         authentication(
           data.localId,
@@ -207,8 +212,9 @@ export const login = (email, password) => {
         new Date().getTime() + parseInt(data.expiresIn) * 1000,
       );
       storeData(expirationDate.toISOString(), data.localId, data.idToken);
+      
     } catch (e) {
-      throw e 
+    throw e
 
     }
   };
@@ -216,8 +222,10 @@ export const login = (email, password) => {
 
 export const authentication = (userId, token, expire) => {
   return (dispatch, _) => {
+ 
     dispatch({type: constants.LOGIN, userId: userId, token: token});
     dispatch(setTimerLogout(expire));
+    
   };
 };
 

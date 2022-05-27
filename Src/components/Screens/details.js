@@ -18,16 +18,17 @@ const ItemDetails = ({route, navigation}) => {
 
   console.log(params.id);
   useEffect(() => {
+    dispatch(requestLoadCharacter(params.id));
     setTimeout(() => {
-      dispatch(requestLoadCharacter(params.id));
       setLoading(false);
-    }, 300);
+    }, 800);
   }, []);
 
   if (
     !loading &&
     !selectorMovies.loading &&
     !selectorChar.loading &&
+    !selectorPlanet.loading&&
     selectorChar.data &&
     selectorPlanet.data &&
     selectorMovies.films

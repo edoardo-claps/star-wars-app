@@ -3,6 +3,7 @@ import {
   GET_CHARACTER_FAIL,
   GET_CHARACTER,
   GET_CHARACTER_SUCCESS,
+  GET_CHARACTERS_ARRAY_SUCCESS
 } from '../actions/constants';
 
 const initialState = {
@@ -18,18 +19,25 @@ const charReducer = (state = initialState, action) => {
     case GET_CHARACTERS_ARRAY:
       return {
         ...state,
-        char: action.payload,
+        loading:true
       };
+      case GET_CHARACTERS_ARRAY_SUCCESS:
+        return {
+          ...state,
+          char: action.payload,
+          loading:false
+        };
     case GET_CHARACTER_FAIL:
       return {
         ...state,
         errorText: action.payload,
         error: true,
+        loading:false
       };
     case GET_CHARACTER:
       return {
         ...state,
-        loading: true,
+       loading:true
       };
     case GET_CHARACTER_SUCCESS:
       return {
