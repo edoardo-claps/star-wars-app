@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { pushInList } from '../../store/actions';
-import Input from '../athoms/input';
+import Input from '../atoms/input';
 import '../../languages/langConfig';
 import {useTranslation} from 'react-i18next';
 

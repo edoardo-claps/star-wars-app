@@ -9,13 +9,14 @@ import {
   reorder,
   search
 } from '../../store/actions';
-import ButtonComp from '../athoms/button';
-import ButtonAdd from '../athoms/buttonAdd';
-import Title from '../athoms/title';
+import ButtonComp from '../atoms/button';
+import ButtonAdd from '../atoms/buttonAdd';
+import Title from '../atoms/title';
 import Card from '../molecole/card';
 import FindCard from '../molecole/findCard';
 import FormId from '../molecole/insertById';
 import Search from '../molecole/searchByName';
+import { logout } from '../../store/actions';
 
 const List = ({navigation}) => {
   const counter = useSelector(state => state.counterreducer);
@@ -84,8 +85,14 @@ const List = ({navigation}) => {
   };
 
   return (
+    <ScrollView>
     <View style={style.fathercontainer}>
       <View style={style.container}>
+        <ButtonComp title='Logout' color='red'
+         onPress={()=>{
+           dispatch(logout());
+           navigation.navigate('Home')
+        }}/>
         <FormId />
         <Search searchItem={searchItem} />
         <ButtonAdd onPress={addOnPressFun} />
@@ -132,6 +139,7 @@ const List = ({navigation}) => {
         </View>
       </ScrollView>
     </View>
+    </ScrollView>
   );
 };
 export default List;

@@ -20,3 +20,7 @@ export const FILTER_BY_NAME = 'filterByName';
 
 export const GET_CHARACTERS_ARRAY = 'getCharactersArray';
 export const GET_CHARACTERS_ARRAY_FAIL = 'getCharactersArrayFail';
+
+
+export const LOGIN='login'
+export const LOGOUT='logout'

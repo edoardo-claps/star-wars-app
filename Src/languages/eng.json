@@ -32,11 +32,17 @@
     "population":"Population: ",
     "residents":"Residents",
     "noResid":"This planet has no residents",
-    "settings":"Settings",
+    "settings":"Language",
     "selectLang":"change Language",
     "moviesInto":"Movies : ",
     "planet":"Planet",
-    "list":"Characters list"
-    
+    "list":"Characters list",
+    "login":"Login",
+    "signUp":"Sing-Up",
+    "whantRegister":"Not registered yet?"  ,
+    "alreadyRegistered":"Already has an Account?",
+    "sometingWasWrong":"Sorry! ... someting was Wrong"
+
+
 
 }

@@ -13,7 +13,7 @@
 
 
 2. Check all TODOS in code
-
+    done 
 3. Add translation (use i18n package)
-
+    done
 4. protect routes with authenticated user

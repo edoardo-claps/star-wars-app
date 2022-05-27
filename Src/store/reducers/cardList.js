@@ -48,7 +48,7 @@ const cardsList = (state = initialState, action) => {
       console.log(action.index);
       let a = state.list.slice(0, action.index);
       let b = state.list.slice(action.index + 1);
-      console.log('a', a, 'b', b);
+    
       return {
         ...state,
         list: a.concat(b),

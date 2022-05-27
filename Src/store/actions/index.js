@@ -1,5 +1,8 @@
 import * as constants from './constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const axios = require('axios').default;
+let timer;
 
 /**
  * @param: array of api-urls
@@ -25,6 +28,27 @@ const changeArrayData = data => {
   });
   return array;
 };
+/**
+ * save data in the permanent store in the device
+ * @param object to save
+ *  */
+const storeData = async (expire, userId, token) => {
+  try {
+    const jsonValue = JSON.stringify({expire, userId, token});
+    await AsyncStorage.setItem('userData', jsonValue);
+  } catch (e) {
+    console.log('storeData' + e);
+    throw e
+  }
+};
+/**
+ * Clears the timer to autologout when the token is invalid
+ */
+const clearTimer = () => {
+  if (timer) {
+    clearTimeout(timer);
+  }
+};
 
 export const increment = () => {
   return {
@@ -45,7 +69,9 @@ export const requestLoadCharacter = Id => {
   return async (dispatch, _) => {
     dispatch({type: constants.GET_CHARACTER});
     try {
-      const result = await axios.get('https://swapi.dev/api/people/' + Id + '/',);
+      const result = await axios.get(
+        'https://swapi.dev/api/people/' + Id + '/',
+      );
       dispatch({type: constants.GET_CHARACTER_SUCCESS, payload: result.data});
 
       const result2 = await axios.get(result.data.homeworld);
@@ -59,8 +85,8 @@ export const requestLoadCharacter = Id => {
       }
     } catch (error) {
       dispatch({type: constants.GET_CHARACTER_FAIL, payload: error});
-      dispatch({type:constants.GET_FILMS_FAIL});
-      dispatch({type:constants.GET_PLANET_FAIL});
+      dispatch({type: constants.GET_FILMS_FAIL});
+      dispatch({type: constants.GET_PLANET_FAIL});
     }
   };
 };
@@ -77,6 +103,7 @@ export const pushInList = Id => {
         payload: {id: Id, ...result.data},
       });
     } catch (error) {
+      console.log(error.response);
       dispatch({type: constants.INSERT_LIST_FAIL, payload: error.message});
     }
   };
@@ -115,5 +142,100 @@ export const getCharacters = urls => {
     } catch (error) {
       dispatch({type: constants.GET_CHARACTERS_ARRAY_FAIL, payload: error});
     }
+  };
+};
+
+export const singup = (email, password) => {
+  return async (dispatch, _) => {
+    try {
+      const body = JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      });
+      const response = await fetch(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBsfUy-Dp3-M0QHhMgZGdhsWnsatPnJ4rw',
+        {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: body,
+        },
+      );
+      const data = await response.json();
+      dispatch(
+        authentication(
+          data.localId,
+          data.idToken,
+          parseInt(data.expiresIn) * 1000,
+        ),
+      );
+      const expirationDate = new Date(
+        new Date().getTime() + parseInt(data.expiresIn) * 1000,
+      );
+      storeData(expirationDate.toISOString(), data.localId, data.idToken);
+    } catch (e) {
+      throw e
+    }
+  };
+};
+
+export const login = (email, password) => {
+  return async (dispatch, _) => {
+    try {
+      const body = JSON.stringify({
+        email: email,
+        password: password,
+        returnSecureToken: true,
+      });
+      const response = await fetch(
+        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBsfUy-Dp3-M0QHhMgZGdhsWnsatPnJ4rw',
+        {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: body,
+        },
+      );
+      const data = await response.json();
+      dispatch(
+        authentication(
+          data.localId,
+          data.idToken,
+          parseInt(data.expiresIn) * 1000,
+        ),
+      );
+      const expirationDate = new Date(
+        new Date().getTime() + parseInt(data.expiresIn) * 1000,
+      );
+      storeData(expirationDate.toISOString(), data.localId, data.idToken);
+    } catch (e) {
+      throw e 
+
+    }
+  };
+};
+
+export const authentication = (userId, token, expire) => {
+  return (dispatch, _) => {
+    dispatch({type: constants.LOGIN, userId: userId, token: token});
+    dispatch(setTimerLogout(expire));
+  };
+};
+
+export const logout = () => {
+  return async (dispatch, _) => {
+    try{clearTimer();
+   await AsyncStorage.removeItem('userData');
+    dispatch({type: constants.LOGOUT});
+  }catch(e){
+    throw e
+  }
+  };
+};
+
+const setTimerLogout = expirationDate => {
+  return (dispatch, _) => {
+    timer = setTimeout(() => {
+      dispatch(logout());
+    }, expirationDate);
   };
 };

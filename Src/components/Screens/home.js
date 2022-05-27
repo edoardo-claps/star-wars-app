@@ -1,30 +1,60 @@
-import React from 'react';
-import {StyleSheet, View} from 'react-native';
-import ButtonComp from '../athoms/button';
-import Title from '../athoms/title';
-import '../../languages/langConfig';
+import React, { useEffect, useState } from 'react';
 import {useTranslation} from 'react-i18next';
+import {Image, StyleSheet, View} from 'react-native';
+import '../../languages/langConfig';
+import ButtonComp from '../atoms/button';
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const Home = ({navigation}) => {
-  const {t}=useTranslation()
+  const [logged, setLogged]=useState(false)
+
+  useEffect(()=>{
+    const checkLogin= async()=>{
+      const userDataString = await AsyncStorage.getItem('userData')
+      if(!userDataString){
+        setLogged(false)
+        return
+    }
+    const userData=JSON.parse(userDataString)
+    const{expire,userId,token}=userData
+    const expirationDate= new Date(expire);
+    if(expirationDate <= new Date() || !token ||!userId){
+       setLogged(false)
+      return
+    }
+    setLogged(true)
+    }
+    checkLogin()
+  },[])
+  const {t} = useTranslation();
+
   return (
     <View style={style.container}>
-      <Title title="Star Wars App!" />
+      <View style={style.img}>
+        <Image source={require('../atoms/logo/starwars.png')} />
+      </View>
       <ButtonComp
         title={t('start')}
         color="#ffd700"
-        onPress={() => navigation.navigate(t('list'))}
+        onPress={() => navigation.navigate(t('LoginCheck'))}
       />
-      <View style={style.settings} >
-
-      <ButtonComp
-        title={t('settings')}
-        color="#ffd700"
-        onPress={() => navigation.navigate(t('settings'))}
-      />
+      {!logged ? (
+        <View style={style.settings}>
+          <ButtonComp
+            title={t('login')}
+            color="#ffd700"
+            onPress={() => navigation.navigate(t('login'))}
+          />
+        </View>
+      ) : null}
+      <View style={style.settings}>
+        <ButtonComp
+          title={t('settings')}
+          color="#ffd700"
+          onPress={() => navigation.navigate(t('settings'))}
+        />
       </View>
     </View>
-    //TODO: immagine
   );
 };
 export default Home;
@@ -34,12 +64,15 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  settings:{
+  settings: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop:40,
-    backgroundColor:'gray',
-    borderRadius:10,
-    padding:100
-  }
+    marginTop: 40,
+    padding: 10,
+  },
+  img: {
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });

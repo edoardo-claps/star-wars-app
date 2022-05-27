@@ -1,20 +1,18 @@
 import i18next from 'i18next';
-import { initReactI18next } from 'react-i18next';
+import {initReactI18next} from 'react-i18next';
 import eng from './eng';
 import ita from './ita';
+import esp from './esp.json';
 
-
-
-i18next.use(initReactI18next)
-.init({
+i18next.use(initReactI18next).init({
   compatibilityJSON: 'v3',
   resources: {
     en: {translation: eng},
     it: {translation: ita},
+    es: {translation: esp},
   },
-  fallbackLng: ['en','it'],
+  fallbackLng: ['en', 'it','es'],
   interpolation: {escapeValue: false},
 });
-
 
 export default i18next;

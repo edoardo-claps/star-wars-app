@@ -1,10 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View, ScrollView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import '../../languages/langConfig';
 import {getCharacters} from '../../store/actions';
-import Title from '../athoms/title';
+import Title from '../atoms/title';
+import { logout } from '../../store/actions';
+import ButtonComp from '../atoms/button';
 
 const PlanetDetails = () => {
   const dispatch = useDispatch();
@@ -30,7 +32,15 @@ const PlanetDetails = () => {
 
   if (!loading && selectorPlanet.data) {
     return (
+      <ScrollView>
       <View style={style.containerDetails}>
+        <View style={style.button}>
+        <ButtonComp title='Logout' color='red'
+         onPress={()=>{
+           dispatch(logout());
+           navigation.navigate('Home')
+        }}/>
+        </View>
         <Title title={selectorPlanet.data.name} />
 
         <View style={style.wrapperDetails}>
@@ -76,6 +86,7 @@ const PlanetDetails = () => {
           ))}
         </View>
       </View>
+      </ScrollView>
     );
   }
   if (selectorPlanet.error) {
@@ -139,4 +150,7 @@ const style = StyleSheet.create({
     alignContent: 'flex-end',
     paddingStart: 6,
   },
+  button:{
+    marginTop:5
+  }
 });

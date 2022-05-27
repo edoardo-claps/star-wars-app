@@ -17,7 +17,7 @@
     "search":"Cerca",
     "originPlanet":"Pianeta d\"origine: ",
     "noMoies":"Nessun Film",
-    "start":"Iniziamo",
+    "start":"Inizia",
     "charList":"Lista dei Personaggi",
     "filterByName":"Filtra per Nome",
     "results":"Risultati:",
@@ -36,6 +36,13 @@
     "selectLang":"Scegli la lingua",
     "moviesInto":"Film in cui appare: ",
     "planet":"Pianeta",
-    "list":"Lista dei Personaggi"
+    "list":"Lista dei Personaggi",
+    "login":"Accedi",
+    "signUp":"Iscriviti",
+    "whantRegister":"Non sei ancora registrsto?",
+    "alreadyRegistered":"Hai gia un account?",
+    "sometingWasWrong":"Ci spiace! ... qualcosa è andato storto"
+
+
     
 }

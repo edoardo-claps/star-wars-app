@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {emptysearch} from '../../store/actions';
-import Input from '../athoms/input';
+import Input from '../atoms/input';
 import '../../languages/langConfig';
 import {useTranslation} from 'react-i18next';
 

@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {requestLoadCharacter} from '../../store/actions';
-import Title from '../athoms/title';
+import {requestLoadCharacter, logout} from '../../store/actions';
+import Title from '../atoms/title';
 import '../../languages/langConfig';
 import {useTranslation} from 'react-i18next';
+import ButtonComp from '../atoms/button';
 
 const ItemDetails = ({route, navigation}) => {
   let params = route.params;
@@ -32,9 +33,16 @@ const ItemDetails = ({route, navigation}) => {
     selectorMovies.films
   ) {
     return (
+      <ScrollView>
       <View style={style.containerDetails}>
+        <View style={style.button}>
+        <ButtonComp title='Logout' color='red'
+         onPress={()=>{
+           dispatch(logout());
+           navigation.navigate('Home')
+        }}/>
+        </View>
         <Title title={selectorChar.data.name} />
-
         <View style={style.wrapperDetails}>
           <Text style={style.textWhite}>
            {t('eyeColor')} {selectorChar.data.eye_color}
@@ -86,6 +94,7 @@ const ItemDetails = ({route, navigation}) => {
           </View>
         </View>
       </View>
+      </ScrollView>
     );
   }
   if (selectorChar.error ) {
@@ -100,6 +109,7 @@ const ItemDetails = ({route, navigation}) => {
          <Text>Loading...</Text>
     </View>);
   }
+
 };
 export default ItemDetails;
 
@@ -154,5 +164,8 @@ const style = StyleSheet.create({
       alignItems:'center',
       alignContent:'center',
       marginTop:'50%'
+  }, 
+  button:{
+    marginTop:5
   }
 });
