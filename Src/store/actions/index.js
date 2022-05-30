@@ -38,7 +38,7 @@ const storeData = async (expire, userId, token) => {
     await AsyncStorage.setItem('userData', jsonValue);
   } catch (e) {
     console.log('storeData' + e);
-    throw e
+    throw e;
   }
 };
 /**
@@ -78,7 +78,7 @@ export const requestLoadCharacter = Id => {
       dispatch({type: constants.GET_PLANET_SUCCESS, payload: result2.data});
 
       if (result.data.films && result.data.films.length > 0) {
-        dispatch({type:constants.GET_FILMS})
+        dispatch({type: constants.GET_FILMS});
         const moviRs = await multiFetchByArray(result.data.films);
 
         let array = changeArrayData(moviRs);
@@ -136,7 +136,7 @@ export const reorder = array => {
 
 export const getCharacters = urls => {
   return async (dispatch, _) => {
-    dispatch({type:constants.GET_CHARACTERS_ARRAY})
+    dispatch({type: constants.GET_CHARACTERS_ARRAY});
     try {
       const data = await multiFetchByArray(urls);
       let array = changeArrayData(data);
@@ -163,8 +163,8 @@ export const singup = (email, password) => {
           body: body,
         },
       );
-      console.log(response)
-    
+      console.log(response);
+
       const data = response.json();
       dispatch(
         authentication(
@@ -178,67 +178,42 @@ export const singup = (email, password) => {
       );
       storeData(expirationDate.toISOString(), data.localId, data.idToken);
     } catch (e) {
-      throw e
+      throw e;
     }
   };
 };
 
-export const login = (email, password) => {
-  return async (dispatch, _) => {
-    const body = JSON.stringify({
-      email: email,
-      password: password,
-      returnSecureToken: true,
-    });
-    try {
-      const response = await fetch(
-        'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBsfUy-Dp3-M0QHhMgZGdhsWnsatPnJ4rw',
-        {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: body,
-        },
-      );
-      const data = await response.json();
-      console.log(data)
-      dispatch(
-        authentication(
-          data.localId,
-          data.idToken,
-          parseInt(data.expiresIn) * 1000,
-        ),
-      );
-      const expirationDate = new Date(
-        new Date().getTime() + parseInt(data.expiresIn) * 1000,
-      );
-      storeData(expirationDate.toISOString(), data.localId, data.idToken);
-      
-    } catch (e) {
-    throw e
+export const login = (data) => {
+        dispatch(
+          authentication(
+            data.localId,
+            data.idToken,
+            parseInt(data.expiresIn) * 1000,
+          ),
+        );
+        const expirationDate = new Date(
+          new Date().getTime() + parseInt(data.expiresIn) * 1000,
+        );
+        storeData(expirationDate.toISOString(), data.localId, data.idToken);
+      }
 
-    }
-  };
-};
 
 export const authentication = (userId, token, expire) => {
   return (dispatch, _) => {
- 
     dispatch({type: constants.LOGIN, userId: userId, token: token});
     dispatch(setTimerLogout(expire));
-    
   };
 };
 
 export const logout = () => {
   return async (dispatch, _) => {
-    try{clearTimer();
-   await AsyncStorage.removeItem('userData');
-    dispatch({type: constants.LOGOUT});
-  }catch(e){
-    throw e
-  }
+  
+      clearTimer();
+      await AsyncStorage.removeItem('userData');
+      dispatch({type: constants.LOGOUT});
+    }
   };
-};
+
 
 const setTimerLogout = expirationDate => {
   return (dispatch, _) => {
@@ -247,3 +222,4 @@ const setTimerLogout = expirationDate => {
     }, expirationDate);
   };
 };
+

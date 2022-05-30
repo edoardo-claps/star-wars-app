@@ -17,7 +17,10 @@ import counterreducer from './Src/store/reducers/counter';
 import moviesReducers from './Src/store/reducers/movies';
 import planetReducer from './Src/store/reducers/planetReducer';
 import auth from './Src/store/reducers/authentication';
+import errorAuth from './Src/store/reducers/errorAuth';
 import AutoLoginHendler from './Src/components/Screens/autoLoginHendler';
+
+
 
 const globalStore = configureStore({
   reducer: {
@@ -26,8 +29,9 @@ const globalStore = configureStore({
     planetReducer,
     moviesReducers,
     cardsList,
-    auth
-  },
+    auth,
+    errorAuth
+  }
 });
 
 const Stack = createNativeStackNavigator();

@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, {useEffect, useState} from 'react';
+import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   Alert,
@@ -9,13 +9,11 @@ import {
   TextInput,
   TouchableOpacity,
   View,
-  ScrollView
+  ScrollView,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import '../../languages/langConfig';
-import { login, singup } from '../../store/actions';
-
-
+import {login, singup} from '../../store/actions';
 
 export default ({navigation}) => {
   const [email, setemail] = useState({value: '', valid: true});
@@ -26,32 +24,19 @@ export default ({navigation}) => {
   const [error, seterror] = useState('');
   const dispatch = useDispatch();
 
-  const useLoginFormState =  () => {
+  const errorMessage = useSelector(state => state.errorAuth);
 
+  const useLoginFormState = async () => {
+    console.log(errorMessage);
+    let actionSwhitch;
     if (isSignUp) {
-
+      //TODO: anticipare controlli mail e password
       if (email.value.includes('@') && email.value.includes('.')) {
         setemail({...email, valid: true});
         if (password.value.length >= 8) {
           setPassword({...password, valid: true});
-          
-          try {
-            setLoading(true);
-              dispatch( singup(email.value, password.value));
-            setLoading(false); 
 
-              navigation.navigate('LoginCheck');
-            
-          } catch (e) {
-            setLoading(false); 
-
-            console.log(e)
-             const errorMessage = e.error.message;
-             if (errorMessage == 'EMAIL_EXIST') {
-              seterror('Email address already used');
-            }
-        }
-
+          actionSwhitch = singup(email.value, password.value);
         } else {
           setPassword({...password, valid: false});
         }
@@ -59,111 +44,142 @@ export default ({navigation}) => {
         setemail({...email, valid: false});
       }
     } else {
-    setLoading(true)
-   
-
       try {
-         dispatch(login(email.value, password.value));
-         setLoading(false); 
-         navigation.navigate('LoginCheck');
-      } catch (e) {
-        console.log(e)
-      setLoading(false); 
-         const errorMessage = e.error.message;
-        if (errorMessage == 'EMAIL_NOT_FOUND') {
-          seterror('Email address not valid');
-        }
-        if (errorMessage == 'INVALID_PASSWORD') {
-          seterror('Password not valid');
-        } ;
-    }
-  
+        const body = JSON.stringify({
+          email: email.value,
+          password: password.value,
+          returnSecureToken: true,
+        });
+        //TODO:axios
+        const response = await fetch(
+          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBsfUy-Dp3-M0QHhMgZGdhsWnsatPnJ4rw',
+          {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: body,
+          },
+        );
+        if (!response.ok) {
+          const data = await response.json();
+          console.log('1');
+          throw new Error(data.error.message);
+        } else {
+          const data = response.json();
+          login(data)
 
+          navigation.navigate(t('list'));
+        }
+      } catch (e) {
+      
+
+        console.log(e);
+        console.log( e.message);
+
+        if (e.message == 'INVALID_EMAIL') {
+          seterror('Email address not valid');
+          console.log('passo')
+        }
+        else if (e.message == 'MISSING_PASSWORD') {
+          seterror('Password not insert');
+        }
+        else if (e.message == 'INVALID_PASSWORD') {
+          seterror('Password not insert');
+        }
+        else if (e.message == 'EMAIL_EXIST') {
+          seterror('Email address already used');
+        } else {
+          seterror('sometingWasWrong');
+        }
+        Alert.alert(t('sometingWasWrong'), error, [{title: 'ok'}]);
+      }
     }
   };
 
   useEffect(() => {
-    if(error){
-    Alert.alert(t('sometingWasWrong'), error, [{title: 'ok'}]);
-  }
+    if (error) {
+    }
   }, [error]);
 
   return (
     <ScrollView>
-    <View style={styles.container}>
-      <KeyboardAvoidingView behavior="position" keyboardVerticalOffset="25">
-        <Text style={styles.headerText}>
-          {isSignUp ? t('signUp') : t('login')}
-        </Text>
+      <View style={styles.container}>
+        <KeyboardAvoidingView behavior="position" keyboardVerticalOffset="25">
+          <Text style={styles.headerText}>
+            {isSignUp ? t('signUp') : t('login')}
+          </Text>
 
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Email</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Email</Text>
 
-          <View style={styles.row}>
-            <TextInput
-              style={styles.input}
-              placeholder="example@gmail.com"
-              onChangeText={text => setemail({...email, value: text})}
-              value={email.value}
-              keyboardType="email-address"
-              returnKeyType="next"
-              autoCapitalize="none"
-              textContentType="emailAddress"
-            />
+            <View style={styles.row}>
+              <TextInput
+                style={styles.input}
+                placeholder="example@gmail.com"
+                onChangeText={text => setemail({...email, value: text})}
+                value={email.value}
+                keyboardType="email-address"
+                returnKeyType="next"
+                autoCapitalize="none"
+                textContentType="emailAddress"
+              />
 
-            {email.valid ? (
-              <Text></Text>
-            ) : (
-              <View style={styles.error}>
-                <Text style={styles.errorText}>!</Text>
-              </View>
-            )}
+              {email.valid ? (
+                <Text></Text>
+              ) : (
+                <View style={styles.error}>
+                  <Text style={styles.errorText}>!</Text>
+                </View>
+              )}
+            </View>
           </View>
-        </View>
-        <View style={styles.inputContainer}>
-          <Text style={styles.inputLabel}>Password</Text>
+          <View style={styles.inputContainer}>
+            <Text style={styles.inputLabel}>Password</Text>
 
-          <View style={styles.row}>
-            <TextInput
-              style={styles.input}
-              placeholder="Password"
-              secureTextEntry
-              onChangeText={text => setPassword({...password, value: text})}
-              value={password.value}
-              textContentType="password"
-              keyboardType="default"
-              onEndEditing={useLoginFormState}
-            />
-            {password.valid ? (
-              <Text></Text>
-            ) : (
-              <View style={styles.error}>
-                <Text style={styles.errorText}>!</Text>
-              </View>
-            )}
+            <View style={styles.row}>
+              <TextInput
+                style={styles.input}
+                placeholder="Password"
+                secureTextEntry
+                onChangeText={text => setPassword({...password, value: text})}
+                value={password.value}
+                textContentType="password"
+                keyboardType="default"
+                onEndEditing={useLoginFormState}
+              />
+              {password.valid ? (
+                <Text></Text>
+              ) : (
+                <View style={styles.error}>
+                  <Text style={styles.errorText}>!</Text>
+                </View>
+              )}
+            </View>
           </View>
-        </View>
-        {loading ? (
-          <ActivityIndicator size="small" color="yellow" />
-        ) : (
-          <TouchableOpacity style={styles.button} onPress={()=>useLoginFormState(dispatch)}>
-            <Text style={styles.buttonText}>
-              {isSignUp ? t('signUp') : t('login')}
+          {loading ? (
+            <ActivityIndicator size="small" color="yellow" />
+          ) : (
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => useLoginFormState()}>
+              <Text style={styles.buttonText}>
+                {isSignUp ? t('signUp') : t('login')}
+              </Text>
+            </TouchableOpacity>
+          )}
+          <View>
+            <Text>
+              {isSignUp ? t('alreadyRegistered') : t('whantRegister')}
             </Text>
-          </TouchableOpacity>
-        )}
-        <View>
-          <Text>{isSignUp ? t('alreadyRegistered') : t('whantRegister')}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setIsSignUp(prevstate => !prevstate)}>
-            <Text style={styles.buttonText}>
-              {isSignUp ? t('login') : t('signUp')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </KeyboardAvoidingView>
-    </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setIsSignUp(prevstate => !prevstate)}>
+              <Text style={styles.buttonText}>
+                {isSignUp ? t('login') : t('signUp')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </KeyboardAvoidingView>
+      </View>
     </ScrollView>
   );
 };
