@@ -4,21 +4,20 @@ import { configureStore } from '@reduxjs/toolkit';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Provider } from 'react-redux';
-import Signup from './Src/components/Screens/singIn';
+import AutoLoginHendler from './Src/components/Screens/autoLoginHendler';
 import ItemDetails from './Src/components/Screens/details';
 import Home from './Src/components/Screens/home';
 import List from './Src/components/Screens/mainListCharacters';
 import PlanetDetails from './Src/components/Screens/planet';
 import Settings from './Src/components/Screens/settings';
+import Signup from './Src/components/Screens/singIn';
 import './Src/languages/langConfig';
+import auth from './Src/store/reducers/authentication';
 import cardsList from './Src/store/reducers/cardList';
 import charReducer from './Src/store/reducers/characters';
 import counterreducer from './Src/store/reducers/counter';
 import moviesReducers from './Src/store/reducers/movies';
 import planetReducer from './Src/store/reducers/planetReducer';
-import auth from './Src/store/reducers/authentication';
-import errorAuth from './Src/store/reducers/errorAuth';
-import AutoLoginHendler from './Src/components/Screens/autoLoginHendler';
 
 
 
@@ -30,7 +29,7 @@ const globalStore = configureStore({
     moviesReducers,
     cardsList,
     auth,
-    errorAuth
+  
   }
 });
 

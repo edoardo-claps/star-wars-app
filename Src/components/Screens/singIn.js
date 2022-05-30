@@ -24,10 +24,8 @@ export default ({navigation}) => {
   const [error, seterror] = useState('');
   const dispatch = useDispatch();
 
-  const errorMessage = useSelector(state => state.errorAuth);
 
   const useLoginFormState = async () => {
-    console.log(errorMessage);
     let actionSwhitch;
     if (isSignUp) {
       //TODO: anticipare controlli mail e password
@@ -35,8 +33,24 @@ export default ({navigation}) => {
         setemail({...email, valid: true});
         if (password.value.length >= 8) {
           setPassword({...password, valid: true});
-
-          actionSwhitch = singup(email.value, password.value);
+          const body = JSON.stringify({
+            email: email,
+            password: password,
+            returnSecureToken: true,
+          });
+          const response = await fetch(
+            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBsfUy-Dp3-M0QHhMgZGdhsWnsatPnJ4rw',
+            {
+              method: 'POST',
+              headers: {'Content-Type': 'application/json'},
+              body: body,
+            },
+          );
+          console.log(response);
+    
+          const data = response.json();
+          singup(data)
+           singup(email.value, password.value);
         } else {
           setPassword({...password, valid: false});
         }
@@ -44,6 +58,7 @@ export default ({navigation}) => {
         setemail({...email, valid: false});
       }
     } else {
+      setLoading(true)
       try {
         const body = JSON.stringify({
           email: email.value,
@@ -60,13 +75,13 @@ export default ({navigation}) => {
           },
         );
         if (!response.ok) {
+          setLoading(false)
           const data = await response.json();
-          console.log('1');
           throw new Error(data.error.message);
         } else {
           const data = response.json();
           login(data)
-
+          setLoading(false)
           navigation.navigate(t('list'));
         }
       } catch (e) {
