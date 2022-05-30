@@ -1,32 +1,51 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
   Alert,
   KeyboardAvoidingView,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
   View,
-  ScrollView,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import '../../languages/langConfig';
 import {login, singup} from '../../store/actions';
-
 export default ({navigation}) => {
   const [email, setemail] = useState({value: '', valid: true});
   const [password, setPassword] = useState({value: '', valid: true});
   const [isSignUp, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
   const {t} = useTranslation();
-  const [error, seterror] = useState('');
+
   const dispatch = useDispatch();
 
+  const handlingError = e => {
+    if (e.message == 'INVALID_EMAIL') {
+      Alert.alert(t('sometingWasWrong'), 'Email address not valid', [
+        {title: 'ok'},
+      ]);
+    } else if (e.message == 'MISSING_PASSWORD') {
+      Alert.alert(t('sometingWasWrong'), 'Password not insert', [
+        {title: 'ok'},
+      ]);
+    } else if (e.message == 'INVALID_PASSWORD') {
+      Alert.alert(t('sometingWasWrong'), 'Password not valid', [{title: 'ok'}]);
+    } else if (e.message == 'EMAIL_EXIST') {
+      Alert.alert(t('sometingWasWrong'), 'Email address already used', [
+        {title: 'ok'},
+      ]);
+    } else {
+      Alert.alert(t('sometingWasWrong'), 'Email address already used', [
+        {title: 'ok'},
+      ]);
+    }
+  };
 
   const useLoginFormState = async () => {
-    let actionSwhitch;
     if (isSignUp) {
       //TODO: anticipare controlli mail e password
       if (email.value.includes('@') && email.value.includes('.')) {
@@ -47,10 +66,10 @@ export default ({navigation}) => {
             },
           );
           console.log(response);
-    
+
           const data = response.json();
-          singup(data)
-           singup(email.value, password.value);
+          dispatch(singup(data));
+          singup(email.value, password.value);
         } else {
           setPassword({...password, valid: false});
         }
@@ -58,7 +77,7 @@ export default ({navigation}) => {
         setemail({...email, valid: false});
       }
     } else {
-      setLoading(true)
+      setLoading(true);
       try {
         const body = JSON.stringify({
           email: email.value,
@@ -75,45 +94,24 @@ export default ({navigation}) => {
           },
         );
         if (!response.ok) {
-          setLoading(false)
+          setLoading(false);
           const data = await response.json();
           throw new Error(data.error.message);
         } else {
-          const data = response.json();
-          login(data)
-          setLoading(false)
+          const data = await response.json();
+
+          dispatch(login(data));
+
+          setLoading(false);
           navigation.navigate(t('list'));
         }
       } catch (e) {
-      
-
+        handlingError(e);
         console.log(e);
-        console.log( e.message);
-
-        if (e.message == 'INVALID_EMAIL') {
-          seterror('Email address not valid');
-          console.log('passo')
-        }
-        else if (e.message == 'MISSING_PASSWORD') {
-          seterror('Password not insert');
-        }
-        else if (e.message == 'INVALID_PASSWORD') {
-          seterror('Password not insert');
-        }
-        else if (e.message == 'EMAIL_EXIST') {
-          seterror('Email address already used');
-        } else {
-          seterror('sometingWasWrong');
-        }
-        Alert.alert(t('sometingWasWrong'), error, [{title: 'ok'}]);
+        console.log(e.message);
       }
     }
   };
-
-  useEffect(() => {
-    if (error) {
-    }
-  }, [error]);
 
   return (
     <ScrollView>

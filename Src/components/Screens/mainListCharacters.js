@@ -17,10 +17,12 @@ import FindCard from '../molecole/findCard';
 import FormId from '../molecole/insertById';
 import Search from '../molecole/searchByName';
 import { logout } from '../../store/actions';
+import { getCardList } from '../../store/selectors/cardList';
+import { getCounter } from '../../store/selectors/counter';
 
 const List = ({navigation}) => {
-  const counter = useSelector(state => state.counterreducer);
-  const SelectorList = useSelector(state => state.cardsList);
+  const counter = useSelector(getCounter);
+  const SelectorList = useSelector(getCardList);
   const dispatch = useDispatch();
   const {t} =useTranslation()
   const removeItem = id => {
@@ -88,6 +90,7 @@ const List = ({navigation}) => {
     <ScrollView>
     <View style={style.fathercontainer}>
       <View style={style.container}>
+        <ButtonComp onPress={()=>navigation.navigate('Home')}/>
         <ButtonComp title='Logout' color='red'
          onPress={()=>{
            dispatch(logout());
@@ -96,6 +99,7 @@ const List = ({navigation}) => {
         <FormId />
         <Search searchItem={searchItem} />
         <ButtonAdd onPress={addOnPressFun} />
+        
 
         <View style={style.towButtonContainer}>
           <Text style={{fontSize: 18}}>{t('filterByName')}</Text>

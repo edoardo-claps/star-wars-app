@@ -6,13 +6,16 @@ import Title from '../atoms/title';
 import '../../languages/langConfig';
 import {useTranslation} from 'react-i18next';
 import ButtonComp from '../atoms/button';
+import { getCharacter } from '../../store/selectors/character';
+import { getPlanet } from '../../store/selectors/planet';
+import { getMovies } from '../../store/selectors/movies';
 
 const ItemDetails = ({route, navigation}) => {
   let params = route.params;
   const dispatch = useDispatch();
-  const selectorChar = useSelector(state => state.charReducer);
-  const selectorPlanet = useSelector(state => state.planetReducer);
-  const selectorMovies = useSelector(state => state.moviesReducers);
+  const selectorChar = useSelector(getCharacter);
+  const selectorPlanet = useSelector(getPlanet);
+  const selectorMovies = useSelector(getMovies);
   const [loading, setLoading] = useState(true);
   const {t}=useTranslation()
 

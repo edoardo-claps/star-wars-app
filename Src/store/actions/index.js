@@ -165,6 +165,7 @@ export const singup = data => {
 
 export const login = data => {
   return (dispatch, _) => {
+    console.log('passo dal login')
   dispatch(
     authentication(data.localId, data.idToken, parseInt(data.expiresIn) * 1000),
   );

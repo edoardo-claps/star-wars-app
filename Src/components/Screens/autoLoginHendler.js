@@ -2,7 +2,7 @@ import React, {useEffect} from 'react'
 import {View, ActivityIndicator, StyleSheet} from 'react-native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useDispatch } from 'react-redux'
-import { authentication } from '../../store/actions'
+import { authentication } from '../../store/actions/authentication'
 import { useTranslation } from 'react-i18next'
 
 const AutoLoginHendler = ({navigation}) => {

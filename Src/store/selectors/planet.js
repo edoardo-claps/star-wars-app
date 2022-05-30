@@ -1,0 +1,1 @@
+export const getPlanet =state => state.planetReducer;

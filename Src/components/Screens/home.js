@@ -4,13 +4,17 @@ import {Image, StyleSheet, View} from 'react-native';
 import '../../languages/langConfig';
 import ButtonComp from '../atoms/button';
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useIsFocused } from '@react-navigation/native';
 
 const Home = ({navigation}) => {
   const [logged, setLogged]=useState(false)
+  const focus=useIsFocused()
+console.log(focus);
 
   useEffect(()=>{
     const checkLogin= async()=>{
       const userDataString = await AsyncStorage.getItem('userData')
+      console.log(userDataString)
       if(!userDataString){
         setLogged(false)
         return
@@ -25,7 +29,7 @@ const Home = ({navigation}) => {
     setLogged(true)
     }
     checkLogin()
-  },[])
+  },[focus])
   const {t} = useTranslation();
 
   return (

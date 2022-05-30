@@ -1,0 +1,1 @@
+export const getCardList=(state)=>state.cardList

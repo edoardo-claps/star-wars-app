@@ -1,88 +1,86 @@
 import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
-import {StyleSheet, Text, View, ScrollView} from 'react-native';
+import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import '../../languages/langConfig';
-import {getCharacters} from '../../store/actions';
-import Title from '../atoms/title';
-import { logout } from '../../store/actions';
+import {getCharacters, logout} from '../../store/actions';
+import {getCharacter} from '../../store/selectors/character';
+import {getPlanet} from '../../store/selectors/planet';
 import ButtonComp from '../atoms/button';
+import Title from '../atoms/title';
 
 const PlanetDetails = () => {
   const dispatch = useDispatch();
 
-  const selectorPlanet = useSelector(state => state.planetReducer);
-  const arrayCharacters = useSelector(state => state.charReducer);
-  const [loading, setLoading] = useState(true);
+  const selectorPlanet = useSelector(getPlanet);
+  const arrayCharacters = useSelector(getCharacter);
   const [error, setError] = useState(true);
   const {t} = useTranslation();
 
   useEffect(() => {
     if (selectorPlanet.data) {
       dispatch(getCharacters(selectorPlanet.data.residents));
-
     } else {
-   
       setError(true);
     }
   }, []);
 
-  if (!selectorPlanet.loading && !arrayCharacters.loading && selectorPlanet.data) {
+  if (
+    !selectorPlanet.loading &&
+    !arrayCharacters.loading &&
+    selectorPlanet.data
+  ) {
     return (
       <ScrollView>
-      <View style={style.containerDetails}>
-        <View style={style.button}>
-        <ButtonComp title='Logout' color='red'
-         onPress={()=>{
-           dispatch(logout());
-           navigation.navigate('Home')
-        }}/>
-        </View>
-        <Title title={selectorPlanet.data.name} />
+        <View style={style.containerDetails}>
+          <View style={style.button}>
+            <ButtonComp
+              title="Logout"
+              color="red"
+              onPress={() => {
+                dispatch(logout());
+                navigation.navigate('Home');
+              }}
+            />
+          </View>
+          <Title title={selectorPlanet.data.name} />
 
-        <View style={style.wrapperDetails}>
-          <Text style={style.textWhite}>
-    
-            {t('rotation')} {selectorPlanet.data.rotation_period}
-          </Text>
-          <Text style={style.textWhite}>
-            
-           {t('orbitation')} {selectorPlanet.data.orbital_period}
-          </Text>
-          <Text style={style.textWhite}>
-            
-            {t('diameter')} {selectorPlanet.data.diameter}
-          </Text>
-          <Text style={style.textWhite}>
-            
-           {t('weather')} {selectorPlanet.data.climate}
-          </Text>
-          <Text style={style.textWhite}>
-            
-           {t('gravity')} {selectorPlanet.data.gravity}
-          </Text>
-          <Text style={style.textWhite}>
-            
-            {t('territory')} {selectorPlanet.data.terrain}
-          </Text>
-          <Text style={style.textWhite}>
-            
-            {t('population')} {selectorPlanet.data.population}
-          </Text>
-        </View>
-        <View style={style.wrapperDetailsFilm}>
-          {arrayCharacters.char.length > 0 ? (
-            <Title title={t('residents')} />
-          ) : (
-            <Title title={t('noResid')} />
-          )}
-          {arrayCharacters.char.map(elem => (
-            <Text style={style.textBlack} key={elem.name + 'Text'}>
-              {elem.name}
+          <View style={style.wrapperDetails}>
+            <Text style={style.textWhite}>
+              {t('rotation')} {selectorPlanet.data.rotation_period}
             </Text>
-          ))}
+            <Text style={style.textWhite}>
+              {t('orbitation')} {selectorPlanet.data.orbital_period}
+            </Text>
+            <Text style={style.textWhite}>
+              {t('diameter')} {selectorPlanet.data.diameter}
+            </Text>
+            <Text style={style.textWhite}>
+              {t('weather')} {selectorPlanet.data.climate}
+            </Text>
+            <Text style={style.textWhite}>
+              {t('gravity')} {selectorPlanet.data.gravity}
+            </Text>
+            <Text style={style.textWhite}>
+              {t('territory')} {selectorPlanet.data.terrain}
+            </Text>
+            <Text style={style.textWhite}>
+              {t('population')} {selectorPlanet.data.population}
+            </Text>
+          </View>
+          <View style={style.wrapperDetailsFilm}>
+            {arrayCharacters.char.length > 0 ? (
+              <Title title={t('residents')} />
+            ) : (
+              <Title title={t('noResid')} />
+            )}
+            {arrayCharacters.char.map(elem => (
+              <Text style={style.textBlack} key={elem.name + 'Text'}>
+                {elem.name}
+              </Text>
+            ))}
+          </View>
         </View>
-      </View>
       </ScrollView>
     );
   }
@@ -147,7 +145,7 @@ const style = StyleSheet.create({
     alignContent: 'flex-end',
     paddingStart: 6,
   },
-  button:{
-    marginTop:5
-  }
+  button: {
+    marginTop: 5,
+  },
 });
