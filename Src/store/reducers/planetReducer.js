@@ -1,4 +1,4 @@
-import {GET_PLANET_FAIL, GET_PLANET_SUCCESS} from '../actions/constants';
+import {GET_PLANET_FAIL, GET_PLANET_SUCCESS} from '../constants';
 
 const initialstate = {
   data: null,

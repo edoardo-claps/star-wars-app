@@ -27,6 +27,9 @@ export const GET_CHARACTERS_ARRAY_FAIL = 'getCharactersArrayFail';
 
 export const LOGIN='login'
 export const LOGOUT='logout'
+export const SET_LOADING_LOGIN='LoadingLogin'
+export const SET_LOGIN_ERROR='loadingError'
 
 export const ERROR_FOUND='errorfound'
 export const NO_ERROR='noError'
+

@@ -5,7 +5,7 @@ import {
   EMPTY_SEARCH,
   FILTER_BY_NAME,
   REMOVE_LIST,
-} from '../actions/constants';
+} from '../constants';
 
 
 const initialState = {

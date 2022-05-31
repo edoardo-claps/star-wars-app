@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useTranslation} from 'react-i18next';
 import {
   ActivityIndicator,
@@ -11,107 +11,91 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import '../../languages/langConfig';
-import {login, singup} from '../../store/actions';
+import { fetchForSingup } from '../../store/actions/authentication';
+import {fetchForLogin} from '../../store/actions/authentication';
+import {
+  getError,
+  getIsLoading,
+  getSuccessLogin,
+} from '../../store/selectors/authentication';
 export default ({navigation}) => {
   const [email, setemail] = useState({value: '', valid: true});
   const [password, setPassword] = useState({value: '', valid: true});
   const [isSignUp, setIsSignUp] = useState(false);
-  const [loading, setLoading] = useState(false);
   const {t} = useTranslation();
+  const loadingLogin = useSelector(getIsLoading);
+  const error = useSelector(getError);
+  const success = useSelector(getSuccessLogin);
 
   const dispatch = useDispatch();
 
   const handlingError = e => {
-    if (e.message == 'INVALID_EMAIL') {
+    if (e == 'INVALID_EMAIL') {
       Alert.alert(t('sometingWasWrong'), 'Email address not valid', [
         {title: 'ok'},
       ]);
-    } else if (e.message == 'MISSING_PASSWORD') {
+    } else if (e == 'MISSING_PASSWORD') {
       Alert.alert(t('sometingWasWrong'), 'Password not insert', [
         {title: 'ok'},
       ]);
-    } else if (e.message == 'INVALID_PASSWORD') {
+    } else if (e == 'INVALID_PASSWORD') {
       Alert.alert(t('sometingWasWrong'), 'Password not valid', [{title: 'ok'}]);
-    } else if (e.message == 'EMAIL_EXIST') {
-      Alert.alert(t('sometingWasWrong'), 'Email address already used', [
+    } else if (e == 'EMAIL_EXIST') {
+      Alert.alert(t('sometingWasWrong'), 'Email address already used', [{title: 'ok'},]);
+    } else if (e == 'EMAIL_NOT_FOUND') {
+      Alert.alert(t('sometingWasWrong'), 'Email address not found', [
         {title: 'ok'},
       ]);
     } else {
-      Alert.alert(t('sometingWasWrong'), 'Email address already used', [
-        {title: 'ok'},
-      ]);
+      Alert.alert(t('sometingWasWrong'), 'boh', [{title: 'ok'}]);
     }
   };
 
   const useLoginFormState = async () => {
-    if (isSignUp) {
-      //TODO: anticipare controlli mail e password
-      if (email.value.includes('@') && email.value.includes('.')) {
-        setemail({...email, valid: true});
-        if (password.value.length >= 8) {
-          setPassword({...password, valid: true});
-          const body = JSON.stringify({
-            email: email,
-            password: password,
-            returnSecureToken: true,
-          });
-          const response = await fetch(
-            'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyBsfUy-Dp3-M0QHhMgZGdhsWnsatPnJ4rw',
-            {
-              method: 'POST',
-              headers: {'Content-Type': 'application/json'},
-              body: body,
-            },
-          );
-          console.log(response);
+    //TODO: anticipare controlli mail e password
+    if (email.value.includes('@') && email.value.includes('.')) {
+      setemail({...email, valid: true});
 
-          const data = response.json();
-          dispatch(singup(data));
-          singup(email.value, password.value);
+      if (password.value.length >= 8) {
+        setPassword({...password, valid: true});
+        if (isSignUp) {
+          dispatch(
+            fetchForSingup({email: email.value, password: password.value}),
+          );
         } else {
-          setPassword({...password, valid: false});
+          dispatch(
+            fetchForLogin({email: email.value, password: password.value}),
+          );
         }
       } else {
-        setemail({...email, valid: false});
+        setPassword({...password, valid: false});
       }
     } else {
-      setLoading(true);
-      try {
-        const body = JSON.stringify({
-          email: email.value,
-          password: password.value,
-          returnSecureToken: true,
-        });
-        //TODO:axios
-        const response = await fetch(
-          'https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyBsfUy-Dp3-M0QHhMgZGdhsWnsatPnJ4rw',
-          {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: body,
-          },
-        );
-        if (!response.ok) {
-          setLoading(false);
-          const data = await response.json();
-          throw new Error(data.error.message);
-        } else {
-          const data = await response.json();
-
-          dispatch(login(data));
-
-          setLoading(false);
-          navigation.navigate(t('list'));
-        }
-      } catch (e) {
-        handlingError(e);
-        console.log(e);
-        console.log(e.message);
-      }
+      setemail({...email, valid: false});
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      handlingError(error);
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (!error) {
+      if (success) {
+        if(isSignUp){
+            navigation.navigate(t('list'));
+        }
+        else{
+
+          navigation.navigate(t('list'));
+        }
+      }
+    }
+  }, [success]);
 
   return (
     <ScrollView>
@@ -168,7 +152,7 @@ export default ({navigation}) => {
               )}
             </View>
           </View>
-          {loading ? (
+          {loadingLogin ? (
             <ActivityIndicator size="small" color="yellow" />
           ) : (
             <TouchableOpacity

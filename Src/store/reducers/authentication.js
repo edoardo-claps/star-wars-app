@@ -1,10 +1,11 @@
 
-import {LOGIN, LOGOUT} from '../actions/constants';
+import {SET_LOADING_LOGIN, LOGIN, SET_LOGIN_ERROR, LOGOUT} from '../constants';
 
 const initialstate = {
   userId: '',
   token: '',
- 
+ error:'',
+ loading:false
 };
 
 const auth = (state = initialstate, action) => {
@@ -15,6 +16,16 @@ const auth = (state = initialstate, action) => {
         userId:action.userId,
         token:action.token
       };
+      case SET_LOADING_LOGIN:
+        return{
+          ...state,
+          loading:action.payload
+        }
+        case SET_LOGIN_ERROR:
+          return{
+            ...state,
+            error: action.payload
+          }
       case LOGOUT:
           return{
               initialstate

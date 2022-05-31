@@ -4,7 +4,7 @@ import {
   GET_CHARACTER,
   GET_CHARACTER_SUCCESS,
   GET_CHARACTERS_ARRAY_SUCCESS
-} from '../actions/constants';
+} from '../constants';
 
 const initialState = {
   char: [],

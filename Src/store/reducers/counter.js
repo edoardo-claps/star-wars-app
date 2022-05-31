@@ -1,4 +1,4 @@
-import {COUNTER_INCREMENT, COUNTER_SET} from '../actions/constants';
+import {COUNTER_INCREMENT, COUNTER_SET} from '../constants';
 
 const counterreducer = (state = 1, action) => {
   switch (action.type) {

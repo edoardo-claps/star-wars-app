@@ -5,7 +5,7 @@ import {
   GET_CHARACTERS_ARRAY,
   GET_CHARACTERS_ARRAY_SUCCESS,
   GET_CHARACTERS_ARRAY_FAIL,
-} from './constants';
+} from '../constants';
 const axios = require('axios').default;
 
 

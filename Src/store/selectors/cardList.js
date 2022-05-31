@@ -1,1 +1,1 @@
-export const getCardList=(state)=>state.cardList
+export const getCardList=(state)=>state.cardsList
