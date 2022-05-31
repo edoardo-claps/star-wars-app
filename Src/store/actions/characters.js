@@ -57,7 +57,6 @@ const changeArrayData = data => {
 
 export const getCharacters = urls => {
   return async (dispatch, _) => {
-    dispatch(getCharacter);
     try {
       const data = await multiFetchByArray(urls);
       let array = changeArrayData(data);

@@ -90,7 +90,7 @@ const List = ({navigation}) => {
     <ScrollView>
     <View style={style.fathercontainer}>
       <View style={style.container}>
-        <ButtonComp title='Home' color='yellow' onPress={()=>navigation.navigate('Home')}/>
+        <ButtonComp title={t('settings')} color='yellow' onPress={()=>navigation.navigate(t('settings'))}/>
         <ButtonComp title='Logout' color='red'
          onPress={()=>{
            dispatch(logout());

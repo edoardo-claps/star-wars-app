@@ -33,23 +33,23 @@ export default ({navigation}) => {
 
   const handlingError = e => {
     if (e == 'INVALID_EMAIL') {
-      Alert.alert(t('sometingWasWrong'), 'Email address not valid', [
+      Alert.alert(t('sometingWasWrong'), t('notValidMail'), [
         {title: 'ok'},
       ]);
     } else if (e == 'MISSING_PASSWORD') {
-      Alert.alert(t('sometingWasWrong'), 'Password not insert', [
+      Alert.alert(t('sometingWasWrong'), t('passNotInsert'), [
         {title: 'ok'},
       ]);
     } else if (e == 'INVALID_PASSWORD') {
-      Alert.alert(t('sometingWasWrong'), 'Password not valid', [{title: 'ok'}]);
+      Alert.alert(t('sometingWasWrong'), t('passNotValid'), [{title: 'ok'}]);
     } else if (e == 'EMAIL_EXIST') {
-      Alert.alert(t('sometingWasWrong'), 'Email address already used', [{title: 'ok'},]);
+      Alert.alert(t('sometingWasWrong'), t('EmailAlreadyUsed'), [{title: 'ok'},]);
     } else if (e == 'EMAIL_NOT_FOUND') {
-      Alert.alert(t('sometingWasWrong'), 'Email address not found', [
+      Alert.alert(t('sometingWasWrong'), t('mailNotFound'), [
         {title: 'ok'},
       ]);
     } else {
-      Alert.alert(t('sometingWasWrong'), 'boh', [{title: 'ok'}]);
+      Alert.alert(t('sometingWasWrong'),t('unexpectedError'), [{title: 'ok'}]);
     }
   };
 
@@ -87,7 +87,7 @@ export default ({navigation}) => {
     if (!error) {
       if (success) {
         if(isSignUp){
-            navigation.navigate(t('list'));
+            navigation.navigate(t('successfullySign_up'));
         }
         else{
 

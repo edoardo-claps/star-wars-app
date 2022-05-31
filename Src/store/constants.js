@@ -5,6 +5,7 @@ export const GET_CHARACTER = 'getCharacter';
 export const GET_CHARACTER_SUCCESS = 'getCharacterSuccess';
 export const GET_CHARACTER_FAIL = 'getCharacterFail';
 
+export const GET_PLANET="getplanet"
 export const GET_PLANET_SUCCESS = 'getPlanetSuccess';
 export const GET_PLANET_FAIL = 'getPlanetFail';
 

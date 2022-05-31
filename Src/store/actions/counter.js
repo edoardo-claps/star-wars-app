@@ -1,4 +1,4 @@
-      import {COUNTER_INCREMENT,COUNTER_SET, } from "./constants"
+      import {COUNTER_INCREMENT,COUNTER_SET } from "../constants"
 
 export const increment = () => {
     return {

@@ -3,7 +3,7 @@ import {useTranslation} from 'react-i18next';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import '../../languages/langConfig';
-import {getCharacters, logout} from '../../store/actions';
+import {getCharacters, getCharactersArray, logout} from '../../store/actions';
 import {getCharacter} from '../../store/selectors/character';
 import {getPlanet} from '../../store/selectors/planet';
 import ButtonComp from '../atoms/button';
@@ -17,8 +17,11 @@ const PlanetDetails = () => {
   const [error, setError] = useState(true);
   const {t} = useTranslation();
 
+ 
   useEffect(() => {
     if (selectorPlanet.data) {
+      dispatch(getCharactersArray);
+
       dispatch(getCharacters(selectorPlanet.data.residents));
     } else {
       setError(true);
@@ -28,6 +31,7 @@ const PlanetDetails = () => {
   if (
     !selectorPlanet.loading &&
     !arrayCharacters.loading &&
+    arrayCharacters.char &&
     selectorPlanet.data
   ) {
     return (

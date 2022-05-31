@@ -56,6 +56,13 @@ const Home = ({navigation}) => {
           onPress={() => navigation.navigate(t('settings'))}
         />
       </View>
+      <View style={style.settings}>
+        <ButtonComp
+          title='pagina success'
+          color="#ffd700"
+          onPress={() => navigation.navigate(t('successfullySign_up'))}
+        />
+      </View>
     </View>
   );
 };

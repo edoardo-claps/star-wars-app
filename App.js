@@ -18,7 +18,7 @@ import charReducer from './Src/store/reducers/characters';
 import counterreducer from './Src/store/reducers/counter';
 import moviesReducers from './Src/store/reducers/movies';
 import planetReducer from './Src/store/reducers/planetReducer';
-
+import SignUpSuccess from './Src/components/Screens/signUpSuccess';
 
 
 const globalStore = configureStore({
@@ -41,11 +41,13 @@ const App = () => {
     <Provider store={globalStore}>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="LoginCheck" component={AutoLoginHendler} />
+          <Stack.Screen name="Home" component={Home} options={{headerShown:false}} />
+        <Stack.Screen name="LoginCheck" component={AutoLoginHendler} options={{headerShown:false}}/>
           <Stack.Screen name={t('details')} component={ItemDetails} />
+          <Stack.Screen name={t('successfullySign_up')} component={SignUpSuccess} options={{headerShown:false}} />
+
           <Stack.Screen name={t('planet')} component={PlanetDetails} />
-          <Stack.Screen name={t('list')} component={List} />
+          <Stack.Screen name={t('list')} component={List} options={{headerShown:false}} />
           <Stack.Screen name={t('settings')} component={Settings} />
           <Stack.Screen name={t('signUp')} component={Signup} />
           <Stack.Screen name={t('login')} component={Signup} />

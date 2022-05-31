@@ -16,7 +16,6 @@ const AutoLoginHendler = ({navigation}) => {
                 return
             }
             const userData=JSON.parse(userDataString)
-            console.log('userdata', userData)
             const{expire,userId,token}=userData
             const expirationDate= new Date(expire);
             if(expirationDate <= new Date() || !token ||!userId){

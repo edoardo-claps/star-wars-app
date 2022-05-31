@@ -2,7 +2,7 @@ import {
   GET_FILMS_FAIL,
   GET_FILMS_SUCCESS,
   GET_FILMS,
-} from '../constants';
+} from '../constants'
 
 const defaultState = {
   films: [],

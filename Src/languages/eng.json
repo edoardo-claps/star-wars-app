@@ -41,8 +41,15 @@
     "signUp":"Sing-Up",
     "whantRegister":"Not registered yet?"  ,
     "alreadyRegistered":"Already has an Account?",
-    "sometingWasWrong":"Sorry! ... someting was Wrong"
-
+    "sometingWasWrong":"Sorry! ... someting was Wrong",
+    "notValidMail":"Email not valid",
+    "passNotInsert":"Password not insert",
+    "passNotValid":"Password not valid",
+    "EmailAlreadyUsed":"This Mail is already used",
+    "mailNotFound":"Mail not found",
+    "successfullySign_up":"You successfully Sign Up !",
+    "thanks":"Thanks !",
+    "unexpectedError":"An unexpected error has occurred"
 
 
 }

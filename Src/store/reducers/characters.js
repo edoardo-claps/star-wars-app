@@ -19,6 +19,7 @@ const charReducer = (state = initialState, action) => {
     case GET_CHARACTERS_ARRAY:
       return {
         ...state,
+        char:[],
         loading:true
       };
       case GET_CHARACTERS_ARRAY_SUCCESS:

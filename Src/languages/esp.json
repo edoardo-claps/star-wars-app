@@ -41,7 +41,15 @@
     "signUp":"Registrarse",
     "whantRegister":"¿ Todavía no estas registrado ?",
     "alreadyRegistered":"¿ Ya tienes una cuenta ?",
-    "sometingWasWrong":"¡Lo sentimos! ... algo salió mal"
+    "sometingWasWrong":"¡Lo sentimos! ... algo salió mal",
+    "notValidMail":"Email no valida",
+    "passNotInsert":"Password no ingresada",
+    "passNotValid":"Password not valida",
+    "EmailAlreadyUsed":"El Email que desea utilizar ya ha sido utilizado",
+    "mailNotFound":"Email no se encuentra",
+    "successfullySign_up":"¡Te registraste con éxito!",
+    "thanks":"Gracias !",
+    "unexpectedError":"Ocurrió un error inesperado"
 
 
     

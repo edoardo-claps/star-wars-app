@@ -1,14 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, TouchableOpacity, View, ScrollView} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {requestLoadCharacter, logout} from '../../store/actions';
-import Title from '../atoms/title';
+import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import '../../languages/langConfig';
-import {useTranslation} from 'react-i18next';
-import ButtonComp from '../atoms/button';
+import { logout, requestLoadCharacter } from '../../store/actions';
 import { getCharacter } from '../../store/selectors/character';
-import { getPlanet } from '../../store/selectors/planet';
 import { getMovies } from '../../store/selectors/movies';
+import { getPlanet } from '../../store/selectors/planet';
+import ButtonComp from '../atoms/button';
+import Title from '../atoms/title';
 
 const ItemDetails = ({route, navigation}) => {
   let params = route.params;
@@ -76,7 +76,7 @@ const ItemDetails = ({route, navigation}) => {
             {t('originPlanet')}
             <TouchableOpacity
               style={style.link}
-              onPress={() => navigation.navigate(t('planet'))}>
+              onPress={() =>{ navigation.navigate(t('planet'));}}>
               <Text style={{color: 'yellow', fontSize: 18}}>
                 {selectorPlanet.data.name}
               </Text>

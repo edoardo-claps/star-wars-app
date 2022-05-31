@@ -57,7 +57,6 @@ return async (dispatch,_)=>{
             dispatch(login(data))
         )
   }catch(e){
-      console.log('catch');
     dispatch(setLoginError(e.message))
 
   }
@@ -96,7 +95,7 @@ return async (dispatch,_)=>{
             dispatch(login(data))
         )
   }catch(e){
-      console.log('catch');
+      
     dispatch(setLoginError(e.message))
 
   }

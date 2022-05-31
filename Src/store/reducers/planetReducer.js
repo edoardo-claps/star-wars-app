@@ -1,12 +1,17 @@
-import {GET_PLANET_FAIL, GET_PLANET_SUCCESS} from '../constants';
+import {GET_PLANET_FAIL, GET_PLANET_SUCCESS, GET_PLANET} from '../constants';
 
 const initialstate = {
   data: null,
-  loading:true,
+  loading:false,
 };
 
 const planetReducer = (state = initialstate, action) => {
   switch (action.type) {
+    case GET_PLANET:
+      return{
+        ...state,
+        loading:true
+      }
     case GET_PLANET_SUCCESS:
       return {
         ...state,
