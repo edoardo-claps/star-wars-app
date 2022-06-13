@@ -20,6 +20,7 @@ import {
   getIsLoading,
   getSuccessLogin,
 } from '../../store/selectors/authentication';
+
 export default ({navigation}) => {
   const [email, setemail] = useState({value: '', valid: true});
   const [password, setPassword] = useState({value: '', valid: true});

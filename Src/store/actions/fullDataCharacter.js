@@ -41,7 +41,7 @@ export const requestLoadCharacter = Id => {
     dispatch(getCharacter());
     try {
       const result = await axios.get(
-        'https://swapi.dev/api/people/' + Id + '/',
+        'https://swapi.dev/api/people/' + Id + '/'
       );
       dispatch(getCharacterSuccess(result.data));
         dispatch(getPlanet())

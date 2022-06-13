@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import { getCharacter } from '../../store/selectors/character';
 import { getMovies } from '../../store/selectors/movies';
 import { getPlanet } from '../../store/selectors/planet';
 import ButtonComp from '../atoms/button';
+import HeaderButton from '../atoms/headerButton';
 import Title from '../atoms/title';
 
 const ItemDetails = ({route, navigation}) => {
@@ -19,7 +20,12 @@ const ItemDetails = ({route, navigation}) => {
   const [loading, setLoading] = useState(true);
   const {t}=useTranslation()
 
-  console.log(params.id);
+  useLayoutEffect(()=>{
+    navigation.setOptions({
+      headerRight:()=><HeaderButton title='prova' onPress={()=>navigation.navigate('Home')} />
+    })
+  },[navigation])
+
   useEffect(() => {
     dispatch(requestLoadCharacter(params.id));
     setTimeout(() => {
@@ -148,8 +154,11 @@ const style = StyleSheet.create({
     elevation: 10,
   },
   MoviesDetail: {
+    alignItems: 'center',
     width: '95%',
     borderRadius: 10,
+    marginBottom:10,
+    paddingBottom:5
   },
   textWhite: {
     color: 'white',
@@ -157,6 +166,7 @@ const style = StyleSheet.create({
   },
   textBlack: {
     fontSize: 18,
+    marginBottom:4
   },
   link: {
     justifyContent: 'flex-end',

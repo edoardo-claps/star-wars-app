@@ -16,11 +16,12 @@ const PlanetDetails = () => {
   const arrayCharacters = useSelector(getCharacter);
   const [error, setError] = useState(true);
   const {t} = useTranslation();
+const [residents,setResidents]=useState([])
 
+dispatch(getCharactersArray);
  
   useEffect(() => {
     if (selectorPlanet.data) {
-      dispatch(getCharactersArray);
 
       dispatch(getCharacters(selectorPlanet.data.residents));
     } else {
@@ -28,10 +29,16 @@ const PlanetDetails = () => {
     }
   }, []);
 
+  useEffect(()=>{
+if(arrayCharacters.char.length>0){
+  setResidents(arrayCharacters.char)
+}
+  },[arrayCharacters])
+
   if (
     !selectorPlanet.loading &&
     !arrayCharacters.loading &&
-    arrayCharacters.char &&
+    residents.length>0 &&
     selectorPlanet.data
   ) {
     return (
@@ -73,12 +80,12 @@ const PlanetDetails = () => {
             </Text>
           </View>
           <View style={style.wrapperDetailsFilm}>
-            {arrayCharacters.char.length > 0 ? (
+            {residents.length > 0 ? (
               <Title title={t('residents')} />
             ) : (
               <Title title={t('noResid')} />
             )}
-            {arrayCharacters.char.map(elem => (
+            {residents.map(elem => (
               <Text style={style.textBlack} key={elem.name + 'Text'}>
                 {elem.name}
               </Text>

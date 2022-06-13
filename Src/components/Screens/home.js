@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image, StyleSheet, View} from 'react-native';
+import {Image, StyleSheet, View, ScrollView} from 'react-native';
 import '../../languages/langConfig';
 import ButtonComp from '../atoms/button';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useIsFocused } from '@react-navigation/native';
-
+import HomeTabBar from '../molecole/HomeBottomTab';
 const Home = ({navigation}) => {
+  navigation.navigate('TabBar')
   const [logged, setLogged]=useState(false)
   const focus=useIsFocused()
 
@@ -31,7 +32,9 @@ const Home = ({navigation}) => {
   const {t} = useTranslation();
 
   return (
+    <ScrollView>
     <View style={style.container}>
+
       <View style={style.img}>
         <Image source={require('../atoms/logo/starwars.png')} />
       </View>
@@ -49,21 +52,9 @@ const Home = ({navigation}) => {
           />
         </View>
       ) : null}
-      <View style={style.settings}>
-        <ButtonComp
-          title={t('settings')}
-          color="#ffd700"
-          onPress={() => navigation.navigate(t('settings'))}
-        />
-      </View>
-      <View style={style.settings}>
-        <ButtonComp
-          title='pagina success'
-          color="#ffd700"
-          onPress={() => navigation.navigate(t('successfullySign_up'))}
-        />
-      </View>
+   
     </View>
+    </ScrollView>
   );
 };
 export default Home;
@@ -72,6 +63,7 @@ const style = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
+    
   },
   settings: {
     justifyContent: 'center',

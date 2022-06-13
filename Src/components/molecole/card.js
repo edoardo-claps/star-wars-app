@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import ButtonComp from '../atoms/button';
-import i18next from '../../languages/langConfig';
+import '../../languages/langConfig';
 import {useTranslation} from 'react-i18next';
 
 
