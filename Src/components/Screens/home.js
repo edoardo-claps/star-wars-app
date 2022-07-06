@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import {useTranslation} from 'react-i18next';
-import {Image, StyleSheet, View, ScrollView} from 'react-native';
+import {Image, StyleSheet, View, ScrollView, Text} from 'react-native';
 import '../../languages/langConfig';
 import ButtonComp from '../atoms/button';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useIsFocused } from '@react-navigation/native';
-import HomeTabBar from '../molecole/HomeBottomTab';
+/* import HomeTabBar from '../molecole/HomeBottomTab'; */
+
 const Home = ({navigation}) => {
-  navigation.navigate('TabBar')
+/*   navigation.navigate('TabBar') */
   const [logged, setLogged]=useState(false)
   const focus=useIsFocused()
 
@@ -38,17 +39,27 @@ const Home = ({navigation}) => {
       <View style={style.img}>
         <Image source={require('../atoms/logo/starwars.png')} />
       </View>
+  
       <ButtonComp
         title={t('start')}
         color="#ffd700"
         onPress={() => navigation.navigate(t('LoginCheck'))}
       />
+      
+    {/*   <ButtonComp
+        title='Apollo'
+        color="#ffd700"
+        onPress={() => navigation.navigate('Apollo')}
+      />
+       */}
       {!logged ? (
         <View style={style.settings}>
           <ButtonComp
             title={t('login')}
             color="#ffd700"
             onPress={() => navigation.navigate(t('login'))}
+
+
           />
         </View>
       ) : null}

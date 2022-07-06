@@ -28,7 +28,7 @@ const HomeTabBar = () => {
             size = focused ? 25 : 20;
              color = focused ? '#F9F871' : '#555';
           } else if (route.name === t('settings')) {
-            iconName = "settings";
+            iconName = "home";
             size = focused ? 25 : 20;
              color = focused ? '#F9F871' : '#555';
           }
